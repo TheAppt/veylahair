@@ -139,17 +139,15 @@
   @media(max-width:640px){.pillars{grid-template-columns:1fr}}
 
   /* METHOD */
-  .method{background:var(--deeper);color:var(--paper);position:relative;overflow:hidden}
-  .method::before{content:"";position:absolute;top:-40%;right:-10%;width:640px;height:640px;border-radius:50%;
-    background:radial-gradient(circle,rgba(244,184,90,.22) 0%,rgba(240,127,151,.09) 45%,transparent 70%);pointer-events:none}
+  .method{background:var(--sand);color:var(--ink);position:relative;overflow:hidden}
   .method .wrap{position:relative;z-index:1}
-  .method h2{color:var(--paper);font-size:clamp(2.1rem,4.2vw,3.1rem);max-width:18ch}
-  .method .intro{color:#F5EEE3;max-width:44ch;margin-top:20px;font-weight:400}
+  .method h2{color:var(--ink);font-size:clamp(2.1rem,4.2vw,3.1rem);max-width:18ch}
+  .method .intro{color:#6B5B4E;max-width:44ch;margin-top:20px;font-weight:400}
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:70px}
-  .step{position:relative;padding-top:32px;border-top:1px solid rgba(244,184,90,.34)}
-  .step .s-num{position:absolute;top:-.72em;font-family:'Fraunces',serif;font-style:italic;font-size:2.4rem;color:var(--halo)}
-  .step h3{color:var(--paper);font-size:1.5rem;margin:20px 0 10px}
-  .step p{color:#F5EEE3;font-weight:400;font-size:.95rem}
+  .step{position:relative;padding-top:32px;border-top:1px solid var(--line)}
+  .step .s-num{position:absolute;top:-.72em;font-family:'Fraunces',serif;font-style:italic;font-size:2.4rem;color:var(--halo-deep)}
+  .step h3{color:var(--ink);font-size:1.5rem;margin:20px 0 10px}
+  .step p{color:#6B5B4E;font-weight:400;font-size:.95rem}
   .method-link{margin-top:56px;text-align:center}
   @media(max-width:760px){.steps{grid-template-columns:1fr;gap:10px}.step{padding-top:28px}}
 
@@ -251,13 +249,13 @@
   /* Force light rendering even if the browser or webview forces dark mode */
   @media (prefers-color-scheme: dark){
     html,body{background:#FFFCF8!important;color:#2A2019!important}
-    section.block,.intro-sec,.founder,.hero{background-color:#FFFCF8!important}
+    section.block,.intro-sec,.founder,.hero,.method{background-color:var(--sand)!important}
     .hero{background:linear-gradient(180deg,#FFFCF8 0%,#FAF2E7 100%)!important}
     .trust,.signup-sec{background-color:#FAF2E7!important}
     .either{background-color:#F2E5D4!important}
-    .method,footer{background-color:#33241B!important}
-    .method h2,.method .step h3{color:#FFFCF8!important}
-    .method p,.method .intro,footer .meta a{color:#F5EEE3!important}
+    footer{background-color:#33241B!important}
+    
+    footer .meta a{color:#F5EEE3!important}
     header{background:rgba(255,252,248,.86)!important}
     .brand,.sec h3,.lead h2,.hero h1,.formtop h2,#done h2,.pillar h3,.level h3,.either h2,.founder blockquote,.intro-copy,.opt .t{color:#2A2019!important}
     input,textarea,.chip,.opt,.lvl{background-color:#FFFCF8!important;color:#2A2019!important}
@@ -267,9 +265,10 @@
      These render identically to the flat colours but survive forced dark mode. */
   html,body{background-image:linear-gradient(#FFFCF8,#FFFCF8)!important;background-color:#FFFCF8!important}
   section.block,.intro-sec,.founder{background-image:linear-gradient(#FFFCF8,#FFFCF8)!important}
+  .method{background-image:linear-gradient(#FAF2E7,#FAF2E7)!important}
   .trust,.signup-sec{background-image:linear-gradient(#FAF2E7,#FAF2E7)!important}
   .either{background-image:linear-gradient(#F2E5D4,#F2E5D4)!important}
-  .method,footer{background-image:linear-gradient(#33241B,#33241B)!important}
+  footer{background-image:linear-gradient(#33241B,#33241B)!important}
   header{background-image:linear-gradient(rgba(255,252,248,.9),rgba(255,252,248,.9))!important}
   .pillar,.lvl,.chip,.opt,input,textarea{background-image:linear-gradient(#FFFCF8,#FFFCF8)!important}
   .btn,.nav-cta{background-image:linear-gradient(#33241B,#33241B)!important;color:#FFFCF8!important}
@@ -278,8 +277,8 @@
   .chip.on{background-image:linear-gradient(#FDF1DC,#FDF1DC)!important}
   .opt.gold.on{background-image:linear-gradient(#FDF1DC,#FDF1DC)!important}
   body,.intro-copy,.opt .t,.sec h3,.lead h2,.hero h1,.formtop h2,#done h2,.pillar h3,.level h3,.either h2,.founder blockquote,.brand{color:#2A2019!important}
-  .method h2,.method .step h3,footer .brand{color:#FFFCF8!important}
-  .method p,.method .intro,footer .meta a{color:#F5EEE3!important}
+  footer .brand{color:#FFFCF8!important}
+  footer .meta a{color:#F5EEE3!important}
 
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
   :focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2px}
@@ -393,7 +392,7 @@
 <section class="block method" id="method">
   <div class="wrap">
     <div class="lead reveal" style="max-width:none">
-      <span class="eyebrow pale">The Highlight Halo Method</span>
+      <span class="eyebrow">The Highlight Halo Method</span>
       <h2>Three moves to your brightest, most dimensional color.</h2>
       <p class="intro">The technique Veyla is built around — the same logic a colorist uses to read your hair and place light where it belongs. Pick your level, from barely-there to the first thing people notice.</p>
     </div>
