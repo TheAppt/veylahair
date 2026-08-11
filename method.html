@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light only" />
+<meta name="supported-color-schemes" content="light" />
+<meta name="theme-color" content="#FFFCF8" />
+<title>The Highlight Halo Method — Veyla</title>
+<meta name="description" content="The Highlight Halo Method: choose your brightness, from subtle to statement. Map, place, and reveal salon-quality dimension at home." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://veylahair.com/method.html" />
+<meta property="og:title" content="The Highlight Halo Method — Veyla" />
+<meta property="og:description" content="Choose your brightness, from subtle to statement." />
+<meta property="og:image" content="https://veylahair.com/og.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://veylahair.com/og.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    color-scheme: light only;
+    --paper:#FFFCF8;
+    --sand:#FAF2E7;
+    --canvas:#F2E5D4;
+    --ink:#2A2019;
+    --ink-soft:#6B5B4E;
+    --halo:#F4B85A;
+    --halo-deep:#A06E1C;
+    --rose:#F07F97;
+    --rose-deep:#D9607C;
+    --deep:#8C6236;
+    --deeper:#33241B;
+    --line:#EADCC8;
+    --maxw:1160px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  html{color-scheme:light only;scroll-behavior:smooth;background:#FFFCF8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  img{max-width:100%;height:auto}
+  body{background:var(--paper);color:var(--ink);font-family:'Jost',-apple-system,sans-serif;font-weight:400;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--halo);color:var(--deeper)}
+  body::after{
+    content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 30px}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-.015em}
+  a{color:inherit}
+  .eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'Jost',sans-serif;font-weight:500;font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;color:var(--halo-deep)}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--halo-deep)}
+
+  header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(10px);background:rgba(255,252,248,.86);border-bottom:1px solid transparent;transition:border-color .3s var(--ease)}
+  header.scrolled{border-color:var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .brand{font-family:'Jost',sans-serif;font-weight:500;font-size:1.18rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);text-decoration:none;padding-left:.42em}
+  .nav-links{display:flex;align-items:center;gap:32px}
+  .nav-links a{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:#5C4F44;text-decoration:none;transition:color .2s var(--ease)}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{color:var(--paper)!important;background:var(--deeper);padding:11px 22px;border-radius:2px;transition:background .25s var(--ease)}
+  .nav-cta:hover{background:#1F1611}
+  @media(max-width:680px){.nav-links a:not(.nav-cta){display:none}}
+
+  .btn{display:inline-block;background:var(--deeper);color:var(--paper);font-family:'Jost',sans-serif;font-weight:500;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;padding:19px 44px;border-radius:2px;text-decoration:none;border:none;cursor:pointer;transition:background .25s var(--ease),transform .2s var(--ease)}
+  .btn:hover{background:#1F1611;transform:translateY(-1px)}
+  .btn-sun{background:var(--halo);color:var(--deeper);box-shadow:0 16px 34px -18px rgba(185,130,41,.85)}
+  .btn-sun:hover{background:#EFAE44;color:var(--deeper)}
+
+  .hero{position:relative;text-align:center;padding:82px 0 64px;overflow:hidden;background:linear-gradient(180deg,var(--paper) 0%,var(--sand) 100%)}
+  .sun{position:absolute;left:50%;bottom:-260px;width:680px;height:680px;transform:translateX(-50%);border-radius:50%;
+    background:radial-gradient(circle,rgba(244,184,90,.5) 0%,rgba(240,127,151,.2) 36%,rgba(244,184,90,.1) 58%,rgba(255,252,248,0) 76%);
+    z-index:0;animation:drift 11s ease-in-out infinite;pointer-events:none}
+  @keyframes drift{0%,100%{opacity:.9;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.05)}}
+  .hero .wrap{position:relative;z-index:1}
+  .back{display:inline-block;margin-bottom:18px;font-size:.8rem;letter-spacing:.06em;color:#5C4F44;text-decoration:none}
+  .back:hover{color:var(--ink)}
+  .hero h1{font-size:clamp(2.4rem,5.6vw,4rem);max-width:16ch;margin:14px auto 0}
+  .hero h1 em{font-style:italic;color:var(--rose-deep)}
+  .hero p.sub{font-size:clamp(1.02rem,1.7vw,1.18rem);color:#6B5B4E;max-width:48ch;margin:22px auto 0;font-weight:400}
+
+  .moves{background:var(--deeper);color:var(--paper);padding:64px 0;position:relative;overflow:hidden}
+  .moves::before{content:"";position:absolute;top:-40%;right:-10%;width:640px;height:640px;border-radius:50%;
+    background:radial-gradient(circle,rgba(244,184,90,.2) 0%,rgba(240,127,151,.08) 45%,transparent 70%);pointer-events:none}
+  .moves .wrap{position:relative;z-index:1}
+  .moves .eyebrow{color:var(--halo);display:block;text-align:center;margin-bottom:34px}
+  .moves .eyebrow::before{display:none}
+  .moves-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+  .move{position:relative;padding-top:26px;border-top:1px solid rgba(244,184,90,.34)}
+  .move .n{position:absolute;top:-.7em;font-family:'Fraunces',serif;font-style:italic;font-size:2rem;color:var(--halo)}
+  .move h3{color:var(--paper);font-size:1.35rem;margin:14px 0 8px}
+  .move p{color:#E6DACB;font-weight:400;font-size:.94rem}
+  @media(max-width:720px){.moves-grid{grid-template-columns:1fr;gap:6px}.move{padding-top:24px}}
+
+  .levels{padding:96px 0 80px}
+  .levels .lead{text-align:center;max-width:42ch;margin:0 auto 60px}
+  .levels .lead .eyebrow{display:block;margin-bottom:16px;justify-content:center}
+  .levels .lead .eyebrow::before{display:none}
+  .levels .lead h2{font-size:clamp(2rem,4vw,2.9rem)}
+  .levels .lead p{color:#6B5B4E;margin-top:16px;font-weight:400;font-size:1.05rem}
+
+  .level{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:72px}
+  .level:nth-child(even) .copy{order:2}
+  .level .shot{border-radius:3px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 60px -38px rgba(60,45,25,.45);background:var(--sand)}
+  .level .shot img{width:100%;height:auto;display:block;aspect-ratio:2/3;object-fit:cover}
+  .level .tag{font-family:'Jost',sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--halo-deep)}
+  .level h3{font-size:clamp(1.8rem,3.4vw,2.4rem);margin:10px 0 14px}
+  .level p{color:#6B5B4E;font-weight:400;font-size:1.02rem;max-width:34ch}
+  .level .for{margin-top:16px;font-size:.86rem;letter-spacing:.02em;color:var(--ink)}
+  .level .for b{color:var(--rose-deep);font-weight:500}
+  @media(max-width:760px){.level{grid-template-columns:1fr;gap:22px;margin-bottom:56px}.level:nth-child(even) .copy{order:0}.level .copy{text-align:center}.level p{margin-inline:auto}.level .shot{max-width:380px;margin-inline:auto;width:100%}}
+
+  .either{background:var(--canvas);text-align:center;padding:60px 0}
+  .either h2{font-size:clamp(1.7rem,3.4vw,2.4rem);max-width:20ch;margin:0 auto 14px}
+  .either p{color:#5F5449;font-weight:400;max-width:46ch;margin:0 auto}
+
+  .cta{position:relative;text-align:center;padding:96px 0;overflow:hidden;background:linear-gradient(180deg,var(--paper) 0%,var(--sand) 100%)}
+  .cta .sun{top:50%;bottom:auto;width:560px;height:560px;opacity:.8}
+  .cta .wrap{position:relative;z-index:1}
+  .cta h2{font-size:clamp(2rem,4.4vw,3rem);max-width:16ch;margin:0 auto 26px}
+
+  footer{background:var(--deeper);color:#E6DACB;padding:48px 0 46px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
+  footer .brand{color:var(--paper);font-size:1rem}
+  footer .meta{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+  footer .meta a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#E6DACB;text-decoration:none;transition:color .2s var(--ease)}
+  footer .meta a:hover{color:var(--halo)}
+  footer .copy{width:100%;font-size:.68rem;color:#B3A08B;letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(216,199,180,.2);padding-top:22px;margin-top:8px}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  :focus-visible{outline:2px solid var(--halo);outline-offset:3px;border-radius:2px}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="index.html" class="brand">Veyla</a>
+    <nav class="nav-links">
+      <a href="index.html#results">Results</a>
+      <a href="index.html#story">Our Story</a>
+      <a href="index.html#signup" class="nav-cta">Be a model</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="sun"></div>
+  <div class="wrap">
+    <a href="index.html" class="back">← Back home</a>
+    <p class="eyebrow">The Highlight Halo Method</p>
+    <h1>Choose your brightness, <em>from subtle to statement.</em></h1>
+    <p class="sub">The Highlight Halo Method is how you use your Veyla: you decide how much light goes in. Three intensity levels, the same simple technique — placed exactly where the sun would catch it.</p>
+  </div>
+</section>
+
+<!-- THREE MOVES -->
+<section class="moves">
+  <div class="wrap">
+    <span class="eyebrow">Three moves, every time</span>
+    <div class="moves-grid">
+      <div class="move">
+        <span class="n">01</span>
+        <h3>Map</h3>
+        <p>Read where the light should fall — around the face, through the lengths, wherever it flatters most.</p>
+      </div>
+      <div class="move">
+        <span class="n">02</span>
+        <h3>Place</h3>
+        <p>Lay in your brightness with your Veyla — clean, even control, exactly where you mapped it and nothing where you didn't.</p>
+      </div>
+      <div class="move">
+        <span class="n">03</span>
+        <h3>Glow</h3>
+        <p>Rinse to soft, dimensional, sun-kissed color that grows out beautifully — no harsh line.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEVELS -->
+<section class="levels">
+  <div class="wrap">
+    <div class="lead">
+      <span class="eyebrow">Pick your level</span>
+      <h2>Three levels of light.</h2>
+      <p>Same method, your call on the drama. Go barely-there, or make it the first thing people notice.</p>
+    </div>
+
+    <div class="level">
+      <div class="shot"><img src="level-1-subtle.webp" width="880" height="1320" loading="lazy" decoding="async" alt="Level 1 — Subtle: soft brightness, minimal contrast, grows out seamlessly"></div>
+      <div class="copy">
+        <span class="tag">Level 1</span>
+        <h3>Subtle</h3>
+        <p>Soft brightness and minimal contrast — the kind that looks like you've just been somewhere sunny.</p>
+        <p class="for"><b>Best for</b> first-timers, low-maintenance, and a seamless grow-out.</p>
+      </div>
+    </div>
+
+    <div class="level">
+      <div class="copy">
+        <span class="tag">Level 2</span>
+        <h3>Balanced</h3>
+        <p>Defined front brightness that's noticeable but still natural. The sweet spot most people land on.</p>
+        <p class="for"><b>Best for</b> a real, visible refresh that still reads effortless.</p>
+      </div>
+      <div class="shot"><img src="level-2-balanced.webp" width="880" height="1320" loading="lazy" decoding="async" alt="Level 2 — Balanced: defined front brightness, noticeable but natural, the sweet spot"></div>
+    </div>
+
+    <div class="level">
+      <div class="shot"><img src="level-3-statement.webp" width="880" height="1320" loading="lazy" decoding="async" alt="Level 3 — Statement: bold framing, higher contrast, statement brightness"></div>
+      <div class="copy">
+        <span class="tag">Level 3</span>
+        <h3>Statement</h3>
+        <p>Bold framing and higher contrast — full, bright dimension when you want it to be the look.</p>
+        <p class="for"><b>Best for</b> a head-turning, high-impact result.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTENER OR COLOR -->
+<section class="either">
+  <div class="wrap">
+    <h2>Lightener or color — your routine, your way.</h2>
+    <p>Brighten with lightener, or blend away grays with color. Whatever level you choose, the method works with what's already in your kit.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="sun"></div>
+  <div class="wrap">
+    <h2>Be first to try the method.</h2>
+    <a href="index.html#signup" class="btn btn-sun">Be a model</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a href="index.html" class="brand">Veyla</a>
+    <div class="meta">
+      <a href="https://instagram.com/veylahair" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:hello@veylahair.com">hello@veylahair.com</a>
+      <a href="index.html#signup">Be a model</a>
+    </div>
+    <p class="copy">© 2026 Veyla&trade; · The Highlight Halo Method · veylahair.com</p>
+  </div>
+</footer>
+
+<script>
+  var header = document.getElementById('top');
+  function onScroll(){ header.classList.toggle('scrolled', window.scrollY > 8); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+</script>
+</body>
+</html>
