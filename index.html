@@ -37,6 +37,7 @@
     --rose:#F07F97;
     --rose-deep:#B5405F;
     --aqua:#1CBBB2;
+    --aqua-deep:#0A6E68;
     --deep:#8C6236;
     --deeper:#33241B;
     --line:#EADCC8;
@@ -59,14 +60,15 @@
   a{color:inherit}
 
   .eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'Jost',sans-serif;font-weight:500;font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;color:var(--halo-deep)}
-  .eyebrow::before{content:"";width:26px;height:1px;background:var(--halo-deep)}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--aqua)}
   .eyebrow.pale{color:var(--halo)}
   .eyebrow.pale::before{background:var(--halo)}
   .eyebrow.nolead::before{display:none}
+  .sea{color:var(--aqua-deep)!important}
 
   /* NAV */
   header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(140%) blur(10px);background:rgba(255,252,248,.86);border-bottom:1px solid transparent;transition:border-color .3s var(--ease)}
-  header.scrolled{border-color:var(--line)}
+  header.scrolled{border-color:var(--aqua)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
   .brand{font-family:'Jost',sans-serif;font-weight:500;font-size:1.18rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);text-decoration:none;padding-left:.42em}
   .nav-links{display:flex;align-items:center;gap:32px}
@@ -113,7 +115,7 @@
   .intro-note{margin-top:24px;font-size:.86rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--halo-deep)}
 
   /* TRUST */
-  .trust{background:var(--sand);border-bottom:1px solid var(--line)}
+  .trust{background:var(--sand);border-top:2px solid var(--aqua);border-bottom:1px solid var(--line)}
   .trust .wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 46px;padding:24px 30px}
   .trust span{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#5C4F44}
   .trust b{color:var(--ink);font-weight:600}
@@ -144,8 +146,8 @@
   .method h2{color:var(--ink);font-size:clamp(2.1rem,4.2vw,3.1rem);max-width:18ch}
   .method .intro{color:#6B5B4E;max-width:44ch;margin-top:20px;font-weight:400}
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:70px}
-  .step{position:relative;padding-top:32px;border-top:1px solid var(--line)}
-  .step .s-num{position:absolute;top:-.72em;font-family:'Fraunces',serif;font-style:italic;font-size:2.4rem;color:var(--halo-deep)}
+  .step{position:relative;padding-top:32px;border-top:2px solid var(--aqua)}
+  .step .s-num{position:absolute;top:-.72em;font-family:'Fraunces',serif;font-style:italic;font-size:2.4rem;color:var(--aqua-deep)}
   .step h3{color:var(--ink);font-size:1.5rem;margin:20px 0 10px}
   .step p{color:#6B5B4E;font-weight:400;font-size:.95rem}
   .method-link{margin-top:56px;text-align:center}
@@ -153,7 +155,7 @@
 
   /* LEVELS */
   
-  .either{background:var(--canvas);text-align:center;padding:72px 0}
+  .either{background:var(--canvas);text-align:center;padding:72px 0;border-top:2px solid var(--aqua);border-bottom:2px solid var(--aqua)}
   .either h2{font-size:clamp(1.8rem,3.4vw,2.5rem);max-width:20ch;margin:0 auto 16px}
   .either p{color:#5F5449;font-weight:400;max-width:46ch;margin:0 auto}
 
@@ -360,7 +362,7 @@
   <div class="wrap">
     <div class="lead reveal">
       <span class="eyebrow">Why Veyla</span>
-      <h2>The dimension a colorist builds — now it's just a Veyla away.</h2>
+      <h2>The dimension a colorist builds — <span class="sea">now it's just a Veyla away.</span></h2>
       <p>Box dye goes flat and all-over. A salon gives you depth and brightness that catches the light. Veyla is the tool that puts that in your own hands.</p>
     </div>
     <div class="pillars reveal">
