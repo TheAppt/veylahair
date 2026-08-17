@@ -169,6 +169,31 @@
 
   /* SIGNUP */
   .signup-sec{background:var(--sand);padding:100px 0 110px;border-top:1px solid var(--line)}
+
+  /* QUICK NOTIFY CARD */
+  .quickcard{background:#fff;border:1px solid var(--line);border-left:3px solid var(--aqua);border-radius:4px;
+    padding:32px 30px;margin-bottom:8px;position:relative;overflow:hidden}
+  .qc-eyebrow{font-family:'Jost',sans-serif;font-weight:600;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--aqua-deep)}
+  .quickcard h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem;margin:10px 0 8px;color:var(--ink)}
+  .quickcard p{color:#6B5B4E;font-size:.94rem;line-height:1.55;margin-bottom:20px;max-width:52ch}
+  .qc-row{display:grid;grid-template-columns:1fr 1fr auto;gap:10px}
+  .qc-row input{padding:14px 16px;font-size:.94rem;border:1px solid var(--line);border-radius:3px;
+    background:var(--paper);color:var(--ink);font-family:'Jost',sans-serif}
+  .qc-row input:focus{outline:none;border-color:var(--aqua)}
+  .qc-btn{background:var(--aqua-deep);padding:14px 26px;font-size:.72rem;white-space:nowrap}
+  .qc-btn:hover{background:#085a55}
+  #qerr{font-size:.82rem;color:#B23A52;margin-top:10px;display:none}
+  #quick-done{display:none;text-align:center;padding:8px 0}
+  #quick-done h3{margin-bottom:6px}
+  #quick-done p{margin:0;margin-inline:auto}
+
+  .or-divider{display:flex;align-items:center;gap:16px;margin:36px 0 44px;color:#9C9080;font-size:.82rem;font-style:italic;font-family:'Fraunces',serif}
+  .or-divider::before,.or-divider::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  @media(max-width:600px){
+    .qc-row{grid-template-columns:1fr}
+    .quickcard{padding:26px 22px}
+  }
   .formwrap{max-width:660px;margin:0 auto;padding:0 30px;background:transparent}
   .formtop{text-align:center;margin-bottom:60px}
   .formtop .eyebrow{margin-bottom:20px}
@@ -274,6 +299,7 @@
   header{background-image:linear-gradient(rgba(255,252,248,.9),rgba(255,252,248,.9))!important}
   .pillar,.lvl,.chip,.opt,input,textarea{background-image:linear-gradient(#FFFCF8,#FFFCF8)!important}
   .btn,.nav-cta{background-image:linear-gradient(#33241B,#33241B)!important;color:#FFFCF8!important}
+  .qc-btn{background-image:linear-gradient(#0A6E68,#0A6E68)!important;color:#FFFCF8!important}
   .btn-sun{background-image:linear-gradient(#F4B85A,#F4B85A)!important;color:#33241B!important}
   .opt.on{background-image:linear-gradient(#FDF0F3,#FDF0F3)!important}
   .chip.on{background-image:linear-gradient(#FDF1DC,#FDF1DC)!important}
@@ -301,6 +327,12 @@
   <input type="text" name="goals" />
   <textarea name="goalNote"></textarea>
   <input type="text" name="optins" />
+  <input name="bot-field" />
+</form>
+
+<form name="launch-notify" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" />
+  <input type="email" name="email" />
   <input name="bot-field" />
 </form>
 
@@ -442,6 +474,28 @@
 <!-- SIGNUP -->
 <section class="signup-sec" id="signup">
   <div class="formwrap">
+
+    <!-- QUICK PATH: just want to know when it launches -->
+    <div class="quickcard" id="quickform">
+      <div id="quick-body">
+        <span class="qc-eyebrow">Not looking to model?</span>
+        <h3>Just want first access?</h3>
+        <p>Leave your email and we'll tell you the moment Veyla is ready to buy. No models, no questions, no catch.</p>
+        <div class="qc-row">
+          <input type="text" id="qname" placeholder="First name (optional)" autocomplete="given-name" />
+          <input type="email" id="qemail" placeholder="Email" autocomplete="email" />
+          <button class="btn qc-btn" id="qgo" type="button">Notify me</button>
+        </div>
+        <div id="qerr"></div>
+      </div>
+      <div id="quick-done">
+        <h3>You're on the list.</h3>
+        <p>We'll email you the moment Veyla launches.</p>
+      </div>
+    </div>
+
+    <div class="or-divider"><span>or answer six quick questions to put your name in as a model</span></div>
+
     <div id="form">
       <div class="formtop">
         <span class="eyebrow nolead">Put your name in</span>
@@ -627,6 +681,33 @@
       .catch(function(){
         btn.textContent="Count me in"; btn.disabled=false;
         fail("Something went wrong. Try again in a second.");
+      });
+  };
+
+  // QUICK NOTIFY FORM
+  var qerr=document.getElementById("qerr");
+  function qv(id){ return document.getElementById(id).value.trim(); }
+  function qfail(m){ qerr.textContent=m; qerr.style.display="block"; }
+
+  document.getElementById("qgo").onclick=function(){
+    var name=qv("qname"), email=qv("qemail");
+    if(!email) return qfail("We need an email to notify you.");
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return qfail("That email doesn't look right.");
+    qerr.style.display="none";
+
+    var data=new URLSearchParams({ "form-name":"launch-notify", name:name, email:email });
+
+    var qbtn=document.getElementById("qgo");
+    qbtn.textContent="Sending..."; qbtn.disabled=true;
+
+    fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:data.toString()})
+      .then(function(){
+        document.getElementById("quick-body").style.display="none";
+        document.getElementById("quick-done").style.display="block";
+      })
+      .catch(function(){
+        qbtn.textContent="Notify me"; qbtn.disabled=false;
+        qfail("Something went wrong. Try again in a second.");
       });
   };
 </script>
