@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light only" />
+<meta name="supported-color-schemes" content="light" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" href="favicon-256.png" />
+<meta name="theme-color" content="#FFFCF8" />
+<title>Community — Veyla</title>
+<meta name="description" content="Free education from a licensed master stylist is coming. Get on the list to be first." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://veylahair.com/community.html" />
+<meta property="og:title" content="Community — Veyla" />
+<meta property="og:description" content="Free education from a licensed master stylist is coming. Get on the list to be first." />
+<meta property="og:image" content="https://veylahair.com/og.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://veylahair.com/og.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    color-scheme: light only;
+    --paper:#FFFCF8; --sand:#FAF2E7;
+    --ink:#2A2019; --ink-soft:#6B5B4E;
+    --halo:#FFB35C; --halo-deep:#70450D;
+    --deep:#0E8A94; --deeper:#093840;
+    --rose-deep:#B5405F;
+    --line:#EADCC8;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  html{color-scheme:light only;background:#FFFCF8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  img{max-width:100%;height:auto}
+  body{background:var(--paper);color:var(--ink);font-family:'Jost',-apple-system,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:640px;margin:0 auto;padding:0 28px}
+  h1{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.01em}
+  a{color:var(--deeper)}
+
+  header{padding:26px 0}
+  .brand{font-family:'Jost',sans-serif;font-weight:500;font-size:1.05rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+
+  main{position:relative;padding:64px 0 110px;overflow:hidden}
+  .sun{position:absolute;left:50%;top:40%;width:640px;height:640px;transform:translate(-50%,-50%);border-radius:50%;
+    background:radial-gradient(circle,rgba(244,184,90,.4) 0%,rgba(240,127,151,.16) 38%,rgba(14,138,148,.12) 60%,rgba(255,252,248,0) 76%);
+    z-index:0;pointer-events:none}
+  main .wrap{position:relative;z-index:1;text-align:center}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'Jost',sans-serif;font-weight:500;font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;color:var(--halo-deep)}
+  .eyebrow::before,.eyebrow::after{content:"";width:26px;height:1px;background:var(--deep)}
+
+  h1{font-size:clamp(2.2rem,5vw,3.2rem);margin:26px 0 18px;max-width:14ch;margin-inline:auto}
+  h1 em{font-style:italic;color:var(--rose-deep)}
+  .sub{color:var(--ink-soft);font-size:1.05rem;max-width:46ch;margin:0 auto 8px}
+  .sub2{color:var(--ink-soft);font-size:.95rem;max-width:44ch;margin:0 auto 40px}
+
+  .btn{display:inline-block;background:var(--halo);color:var(--deeper);font-family:'Jost',sans-serif;font-weight:500;
+    font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;padding:18px 40px;border-radius:2px;
+    text-decoration:none;transition:background .2s var(--ease),transform .2s var(--ease)}
+  .btn:hover{background:#EFAE44;transform:translateY(-1px)}
+
+  .back{display:block;margin-top:48px;font-size:.85rem;color:var(--deeper);text-decoration:none;border-bottom:1px solid var(--line)}
+  .back{display:inline-block}
+  .back:hover{border-color:var(--deeper)}
+
+  /* METHOD PREVIEW */
+  .method-sec{background:var(--sand);padding:80px 0;text-align:center;border-top:1px solid var(--line)}
+  .eyebrow2{display:inline-flex;align-items:center;gap:12px;font-family:'Jost',sans-serif;font-weight:500;font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--halo-deep)}
+  .method-h2{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(1.7rem,3.6vw,2.4rem);margin:20px auto 14px;max-width:20ch;letter-spacing:-.01em}
+  .method-intro{color:var(--ink-soft);max-width:44ch;margin:0 auto 56px;font-size:.98rem}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;text-align:left;margin-bottom:52px}
+  .step{position:relative;padding-top:28px;border-top:2px solid var(--deep)}
+  .step .s-num{position:absolute;top:-.68em;font-family:'Fraunces',serif;font-style:italic;font-size:2.1rem;color:var(--deep)}
+  .step h3{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:1.3rem;color:var(--ink);margin:16px 0 8px}
+  .step p{color:var(--ink-soft);font-weight:400;font-size:.92rem;line-height:1.55}
+  .btn-outline{background:transparent;color:var(--deeper);border:1px solid var(--deeper)}
+  .btn-outline:hover{background:var(--deeper);color:var(--paper)}
+  .wrap>.back{display:block;margin:56px auto;text-align:center;width:fit-content}
+  @media(max-width:680px){
+    .steps{grid-template-columns:1fr;gap:36px;text-align:center}
+    .step{padding-top:24px}
+  }
+
+  footer{border-top:1px solid var(--line);padding:28px 0;font-size:.76rem;color:#B3A08B;text-align:center}
+
+  @media(max-width:560px){
+    main{padding:48px 0 84px}
+    .btn{width:100%}
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wrap"><a href="index.html" class="brand">Veyla</a></div></header>
+
+<main>
+  <div class="sun"></div>
+  <div class="wrap">
+    <span class="eyebrow">Coming soon</span>
+    <h1>The education isn't <em>built yet.</em></h1>
+    <p class="sub">This is where the real how-to lives eventually — technique breakdowns, placement guides, the stuff usually kept behind the chair.</p>
+    <p class="sub2">It's not ready. Get on the list and you'll be first to see it when it is.</p>
+    <a href="index.html#signup" class="btn">Join the list</a>
+  </div>
+</main>
+
+<!-- METHOD PREVIEW -->
+<section class="method-sec">
+  <div class="wrap">
+    <span class="eyebrow2">The Highlight Halo Method</span>
+    <h2 class="method-h2">Three moves to your brightest, most dimensional color.</h2>
+    <p class="method-intro">One piece of the real how-to, early — the same logic a colorist uses to read your hair and place light where it belongs.</p>
+    <div class="steps">
+      <div class="step">
+        <span class="s-num">01</span>
+        <h3>Map</h3>
+        <p>Read where the light should fall — around the face, through the lengths, wherever the sun would catch it.</p>
+      </div>
+      <div class="step">
+        <span class="s-num">02</span>
+        <h3>Place</h3>
+        <p>Lay in your highlights with clean, even control — exactly where you mapped them, nothing where you didn't.</p>
+      </div>
+      <div class="step">
+        <span class="s-num">03</span>
+        <h3>Glow</h3>
+        <p>Rinse to soft, dimensional, sun-kissed color that grows out beautifully — no harsh line, no regret.</p>
+      </div>
+    </div>
+    <a href="method.html" class="btn btn-outline">See the three levels</a>
+  </div>
+</section>
+
+<div class="wrap">
+  <a href="index.html" class="back">← Back to veylahair.com</a>
+</div>
+
+<footer>© 2026 Veyla</footer>
+
+</body>
+</html>
