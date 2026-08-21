@@ -111,7 +111,7 @@
   .proof{margin-top:24px;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:#5C4F44}
   .proof b{color:var(--ink);font-weight:600}
   .hero-photo{position:relative;align-self:stretch;display:flex;align-items:center}
-  .hero-photo img{width:100%;height:auto;max-height:560px;object-fit:cover;display:block;border-radius:10px;
+  .hero-photo img{width:100%;height:auto;max-height:560px;object-fit:cover;object-position:50% 22%;display:block;border-radius:10px;
     box-shadow:0 44px 76px -38px rgba(9,56,64,.42)}
   .horizon{margin-top:0;height:1px;background:linear-gradient(90deg,transparent,var(--line) 18%,var(--line) 82%,transparent);position:relative;z-index:1}
   .wave-divider{width:100%;height:clamp(180px,26vw,340px);overflow:hidden;position:relative}
@@ -139,10 +139,10 @@
   section.block{padding:126px 0;background:var(--paper)}
   .reveal{opacity:1;transform:translateY(14px);transition:transform .8s var(--ease)}
   .reveal.in{opacity:1;transform:none}
-  .lead{max-width:34ch}
+  .lead{max-width:640px}
   .lead .eyebrow{margin-bottom:22px}
-  .lead h2{font-size:clamp(2.1rem,4.2vw,3.1rem)}
-  .lead p{color:#6B5B4E;margin-top:20px;font-weight:400;font-size:1.05rem}
+  .lead h2{font-size:clamp(2.1rem,4.2vw,3.1rem);max-width:16ch}
+  .lead p{color:#6B5B4E;margin-top:20px;font-weight:400;font-size:1.05rem;max-width:42ch}
   .lead.center{max-width:44ch;margin-inline:auto;text-align:center}
 
   /* RESULTS */
@@ -380,7 +380,7 @@
         visits. Before it launches, we're testing it on real hair.
         <b>Yours could be next.</b>
       </p>
-      <p class="range">Highlights &nbsp;·&nbsp; Babylights &nbsp;·&nbsp; Money pieces &nbsp;·&nbsp; Grey blending &nbsp;·&nbsp; Regrowth refresh</p>
+      <p class="range">Highlights &nbsp;·&nbsp; Babylights &nbsp;·&nbsp; Money&nbsp;pieces &nbsp;·&nbsp; Grey&nbsp;blending &nbsp;·&nbsp; Regrowth&nbsp;refresh</p>
       <p class="kicker">Not nearby? Join the list anyway — you'll be first to know when it's ready.</p>
       <a href="#signup" class="btn">Put my name in</a>
     </div>
@@ -415,7 +415,7 @@
         <p>Leave your email and we'll tell you the moment Veyla is ready to buy. No models, no questions, no catch.</p>
         <p class="qc-count" id="signupCount" style="display:none"></p>
         <div class="qc-row">
-          <label for="qname" class="vh">First name</label><input type="text" id="qname" placeholder="First name (optional)" autocomplete="given-name" />
+          <label for="qname" class="vh">First name</label><input type="text" id="qname" placeholder="First name" autocomplete="given-name" />
           <label for="qcity" class="vh">City</label><input type="text" id="qcity" placeholder="City" autocomplete="address-level2" />
           <label for="qemail" class="vh">Email</label><input type="email" id="qemail" placeholder="Email" autocomplete="email" />
           <button class="btn qc-btn" id="qgo" type="button">Notify me</button>
@@ -524,10 +524,8 @@
   <div class="wrap reveal">
     <span class="eyebrow nolead">What this is</span>
     <p class="intro-copy">
-      Hair grows. Roots come in, highlights drift further from your part.
-      <b>Veyla is a new tool built for what happens next</b> — a refresh, or just a few
-      pieces back, done yourself, at home, without redoing your whole color. It's currently
-      in research and development, and real hair is how we get it right.
+      Veyla is currently in research and development. The people who sign up now are how
+      we get it right before anyone else sees it — <b>real hair, real feedback,</b> nothing simulated.
     </p>
     <p class="intro-note">Free to test. No purchase, ever, required to be part of it.</p>
   </div>
@@ -539,7 +537,7 @@
     <div class="lead reveal">
       <span class="eyebrow">Why Veyla</span>
       <h2>The dimension a colorist builds — <span class="sea">now it's just a Veyla away.</span></h2>
-      <p>Hair grows — roots come in, highlights move away from your part. Sometimes that means wanting a refresh. Sometimes it's just a few pieces back. Veyla does either, yourself, between visits.</p>
+      <p>Everything a colorist already knows about placing light — built into something you use yourself.</p>
     </div>
     <div class="pillars reveal">
       <div class="pillar">
@@ -601,7 +599,7 @@
 
   var LEVELS=[["Black","#0D0B0A"],["Darkest brown","#241A15"],["Dark brown","#3A281E"],["Medium brown","#54382A"],["Light brown","#6E4A33"],["Dark blonde","#8C6440"],["Medium blonde","#A88254"],["Light blonde","#C4A472"],["Very light blonde","#DCC59A"],["Lightest blonde","#EEE0C4"]];
   var STATUS=["Virgin, never colored","All-over color, darker than natural","All-over color, lighter than natural","Highlights or balayage","Previously bleached","Growing out old color"];
-  var GOALS=[["highlights","Highlights","All-over dimension"],["money","Money piece","Brightness around the face"],["grey","Grey blending","Softening the line"],["other","Something else","Tell us below"]];
+  var GOALS=[["highlights","Highlights","All-over dimension"],["money","Money pieces","Brightness around the face"],["grey","Grey blending","Softening the line"],["other","Something else","Tell us below"]];
   var OPTINS=[
     ["education","Send me the free education","How to place your own highlights, from a licensed master stylist"],
     ["launch","Tell me when it's ready","First access when the tool launches"],
