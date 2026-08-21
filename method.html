@@ -28,14 +28,14 @@
     --canvas:#F2E5D4;
     --ink:#2A2019;
     --ink-soft:#6B5B4E;
-    --halo:#F4B85A;
+    --halo:#FFB35C;
     --halo-deep:#70450D;
     --rose:#F07F97;
     --rose-deep:#B5405F;
     --aqua:#1CBBB2;
-    --aqua-deep:#0A6E68;
-    --deep:#8C6236;
-    --deeper:#33241B;
+    --aqua-deep:#0E8A94;
+    --deep:#0E8A94;
+    --deeper:#093840;
     --line:#EADCC8;
     --maxw:1160px;
     --ease:cubic-bezier(.22,.61,.36,1);
@@ -62,12 +62,12 @@
   .nav-links{display:flex;align-items:center;gap:32px}
   .nav-links a{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:#5C4F44;text-decoration:none;transition:color .2s var(--ease)}
   .nav-links a:hover{color:var(--ink)}
-  .nav-cta{color:var(--paper)!important;background:var(--deeper);padding:11px 22px;border-radius:2px;transition:background .25s var(--ease)}
-  .nav-cta:hover{background:#1F1611}
+  .nav-cta{color:var(--paper)!important;background:var(--deep);padding:11px 22px;border-radius:2px;transition:background .25s var(--ease)}
+  .nav-cta:hover{background:#0A5F68}
   @media(max-width:680px){.nav-links a:not(.nav-cta){display:none}}
 
-  .btn{display:inline-block;background:var(--deeper);color:var(--paper);font-family:'Jost',sans-serif;font-weight:500;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;padding:19px 44px;border-radius:2px;text-decoration:none;border:none;cursor:pointer;transition:background .25s var(--ease),transform .2s var(--ease)}
-  .btn:hover{background:#1F1611;transform:translateY(-1px)}
+  .btn{display:inline-block;background:var(--deep);color:var(--paper);font-family:'Jost',sans-serif;font-weight:500;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;padding:19px 44px;border-radius:2px;text-decoration:none;border:none;cursor:pointer;transition:background .25s var(--ease),transform .2s var(--ease)}
+  .btn:hover{background:#0A5F68;transform:translateY(-1px)}
   .btn-sun{background:var(--halo);color:var(--deeper);box-shadow:0 16px 34px -18px rgba(185,130,41,.85)}
   .btn-sun:hover{background:#EFAE44;color:var(--deeper)}
 
@@ -107,7 +107,7 @@
   .level:nth-child(even) .copy{order:2}
   .level .shot{border-radius:3px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 60px -38px rgba(60,45,25,.45);background:var(--sand)}
   .level .shot img{width:100%;height:auto;display:block;aspect-ratio:2/3;object-fit:cover}
-  .level .tag{font-family:'Jost',sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--aqua-deep)}
+  .level .tag{font-family:'Jost',sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--deeper)}
   .level h3{font-size:clamp(1.8rem,3.4vw,2.4rem);margin:10px 0 14px}
   .level p{color:#6B5B4E;font-weight:400;font-size:1.02rem;max-width:34ch}
   .level .for{margin-top:16px;font-size:.86rem;letter-spacing:.02em;color:var(--ink)}
@@ -143,7 +143,7 @@
     <a href="index.html" class="brand">Veyla</a>
     <nav class="nav-links">
       <a href="index.html#results">Results</a>
-      <a href="index.html#story">Our Story</a>
+      <a href="index.html#story">Community</a>
       <a href="index.html#signup" class="nav-cta">Be a model</a>
     </nav>
   </div>
@@ -248,6 +248,7 @@
     <div class="meta">
       <a href="https://instagram.com/veylahairtool" target="_blank" rel="noopener">Instagram</a>
       <a href="mailto:hello@veylahair.com">hello@veylahair.com</a>
+      <a href="privacy.html">Privacy</a>
       <a href="index.html#signup">Be a model</a>
     </div>
     <p class="copy">© 2026 Veyla&trade; · The Highlight Halo Method · veylahair.com</p>

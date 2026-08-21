@@ -9,18 +9,18 @@
 <meta name="theme-color" content="#FFFCF8" />
 <meta name="supported-color-schemes" content="light" />
 <title>Veyla — now casting hair models</title>
-<meta name="description" content="Now casting hair models. Free highlights placed by a licensed master stylist. You keep the color, we keep the photos." />
+<meta name="description" content="Now casting hair models to test a new at-home highlighting tool, built to refresh your color between salon visits." />
 
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://veylahair.com/" />
-<meta property="og:title" content="Veyla — free highlights, placed by hand" />
-<meta property="og:description" content="Now casting hair models. Free session with a licensed master stylist, no fee." />
+<meta property="og:title" content="Veyla — refresh your color, between appointments" />
+<meta property="og:description" content="Now casting hair models to test a new highlighting tool. No fee, ever." />
 <meta property="og:image" content="https://veylahair.com/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Veyla — free highlights, placed by hand" />
-<meta name="twitter:description" content="Now casting hair models. Free session with a licensed master stylist, no fee." />
+<meta name="twitter:title" content="Veyla — refresh your color, between appointments" />
+<meta name="twitter:description" content="Now casting hair models to test a new highlighting tool. No fee, ever." />
 <meta name="twitter:image" content="https://veylahair.com/og.jpg" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -34,14 +34,14 @@
     --canvas:#F2E5D4;
     --ink:#2A2019;
     --ink-soft:#6B5B4E;
-    --halo:#F4B85A;
+    --halo:#FFB35C;
     --halo-deep:#70450D;
     --rose:#F07F97;
     --rose-deep:#B5405F;
     --aqua:#1CBBB2;
-    --aqua-deep:#0A6E68;
-    --deep:#8C6236;
-    --deeper:#33241B;
+    --aqua-deep:#0E8A94;
+    --deep:#0E8A94;
+    --deeper:#093840;
     --line:#EADCC8;
     --maxw:1160px;
     --ease:cubic-bezier(.22,.61,.36,1);
@@ -73,17 +73,21 @@
   header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(140%) blur(10px);background:rgba(255,252,248,.86);border-bottom:1px solid transparent;transition:border-color .3s var(--ease)}
   header.scrolled{border-color:var(--aqua)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  #results,#method,#story,#signup{scroll-margin-top:90px}
+  .wave-mark{width:100%;height:34px;display:block;overflow:visible}
+  .wave-mark path{fill:none;stroke:var(--deep);stroke-width:1.4;stroke-linecap:round;opacity:.55}
+  .wave-mark.pale path{stroke:var(--paper);opacity:.4}
   .brand{font-family:'Jost',sans-serif;font-weight:500;font-size:1.18rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);text-decoration:none;padding-left:.42em}
   .nav-links{display:flex;align-items:center;gap:32px}
   .nav-links a{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:#5C4F44;text-decoration:none;transition:color .2s var(--ease)}
   .nav-links a:hover{color:var(--ink)}
-  .nav-cta{color:var(--paper)!important;background:var(--deeper);padding:11px 22px;border-radius:2px;transition:background .25s var(--ease)}
-  .nav-cta:hover{background:#1F1611}
+  .nav-cta{color:var(--paper)!important;background:var(--deep);padding:11px 22px;border-radius:2px;transition:background .25s var(--ease)}
+  .nav-cta:hover{background:#0A5F68}
   @media(max-width:760px){.nav-links a:not(.nav-cta){display:none}}
 
   /* BUTTONS */
-  .btn{display:inline-block;background:var(--deeper);color:var(--paper);font-family:'Jost',sans-serif;font-weight:500;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;padding:19px 44px;border-radius:2px;text-decoration:none;border:none;cursor:pointer;transition:background .25s var(--ease),transform .2s var(--ease)}
-  .btn:hover{background:#1F1611;transform:translateY(-1px)}
+  .btn{display:inline-block;background:var(--deep);color:var(--paper);font-family:'Jost',sans-serif;font-weight:500;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;padding:19px 44px;border-radius:2px;text-decoration:none;border:none;cursor:pointer;transition:background .25s var(--ease),transform .2s var(--ease)}
+  .btn:hover{background:#0A5F68;transform:translateY(-1px)}
   .btn.full{display:block;width:100%;padding:21px}
   .btn:disabled{opacity:.5;cursor:default;transform:none}
   .btn-sun{background:var(--halo);color:var(--deeper);box-shadow:0 16px 34px -18px rgba(185,130,41,.85)}
@@ -95,22 +99,30 @@
     background:radial-gradient(circle,rgba(244,184,90,.55) 0%,rgba(240,127,151,.20) 36%,rgba(244,184,90,.10) 58%,rgba(255,252,248,0) 76%);
     z-index:0;animation:drift 11s ease-in-out infinite;pointer-events:none}
   @keyframes drift{0%,100%{opacity:.9;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.05)}}
-  .hero .wrap{position:relative;z-index:1;text-align:center}
-  .hero h1{font-size:clamp(2.9rem,7vw,5.2rem);max-width:13ch;margin:26px auto 0}
+  .hero .wrap.hero-grid{position:relative;z-index:1;text-align:left;display:grid;grid-template-columns:1.15fr .78fr;gap:64px;align-items:center;padding-bottom:60px}
+  .hero h1{font-size:clamp(2.6rem,4.6vw,4.4rem);max-width:12ch;margin:24px 0 0}
   .hero h1 em{font-style:italic;color:var(--rose-deep)}
-  .hero p.sub{font-size:clamp(1.02rem,1.7vw,1.2rem);color:#6B5B4E;max-width:50ch;margin:26px auto 0;font-weight:400}
+  .hero p.sub{font-size:clamp(1rem,1.4vw,1.14rem);color:#6B5B4E;max-width:48ch;margin:24px 0 0;font-weight:400}
   .hero p.sub b{color:var(--ink);font-weight:500}
-  .hero .kicker{font-size:1rem;font-weight:500;color:var(--halo-deep);max-width:44ch;margin:20px auto 0}
-  .hero .btn{margin-top:38px}
-  .proof{margin-top:28px;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:#5C4F44}
+  .hero .kicker{font-size:1rem;font-weight:500;color:var(--halo-deep);max-width:44ch;margin:18px 0 0}
+  .hero .range{font-family:'Jost',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.06em;
+    color:var(--deeper);margin:20px 0 0;max-width:52ch}
+  .hero .btn{margin-top:32px}
+  .proof{margin-top:24px;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:#5C4F44}
   .proof b{color:var(--ink);font-weight:600}
-  .horizon{margin-top:72px;height:1px;background:linear-gradient(90deg,transparent,var(--line) 18%,var(--line) 82%,transparent);position:relative;z-index:1}
+  .hero-photo{position:relative;align-self:stretch;display:flex;align-items:center}
+  .hero-photo img{width:100%;height:auto;max-height:560px;object-fit:cover;display:block;border-radius:10px;
+    box-shadow:0 44px 76px -38px rgba(9,56,64,.42)}
+  .horizon{margin-top:0;height:1px;background:linear-gradient(90deg,transparent,var(--line) 18%,var(--line) 82%,transparent);position:relative;z-index:1}
+  .wave-divider{width:100%;height:clamp(180px,26vw,340px);overflow:hidden;position:relative}
+  .wave-divider img{width:100%;height:100%;object-fit:cover;display:block;object-position:center 60%}
 
   .ping{width:7px;height:7px;border-radius:50%;background:var(--halo-deep);animation:blink 2.4s ease-in-out infinite;flex-shrink:0}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 
   /* INTRO */
   .intro-sec{padding:92px 0 84px;background:var(--paper)}
+
   .intro-sec .wrap{max-width:760px;text-align:center}
   .intro-sec .eyebrow{margin-bottom:26px}
   .intro-copy{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.32rem,2.5vw,1.85rem);line-height:1.42;font-weight:400;color:var(--ink)}
@@ -118,13 +130,13 @@
   .intro-note{margin-top:24px;font-size:.86rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--halo-deep)}
 
   /* TRUST */
-  .trust{background:var(--sand);border-top:2px solid var(--aqua);border-bottom:1px solid var(--line)}
+  .trust{background:var(--sand);border-bottom:1px solid var(--line)}
   .trust .wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 46px;padding:24px 30px}
   .trust span{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#5C4F44}
   .trust b{color:var(--ink);font-weight:600}
 
   /* SECTIONS */
-  section.block{padding:108px 0;background:var(--paper)}
+  section.block{padding:126px 0;background:var(--paper)}
   .reveal{opacity:1;transform:translateY(14px);transition:transform .8s var(--ease)}
   .reveal.in{opacity:1;transform:none}
   .lead{max-width:34ch}
@@ -158,7 +170,7 @@
 
   /* LEVELS */
   
-  .either{background:var(--canvas);text-align:center;padding:72px 0;border-top:2px solid var(--aqua);border-bottom:2px solid var(--aqua)}
+  .either{background:var(--canvas);text-align:center;padding:96px 0}
   .either h2{font-size:clamp(1.8rem,3.4vw,2.5rem);max-width:20ch;margin:0 auto 16px}
   .either p{color:#5F5449;font-weight:400;max-width:46ch;margin:0 auto}
 
@@ -176,15 +188,16 @@
   /* QUICK NOTIFY CARD */
   .quickcard{background:#fff;border:1px solid var(--line);border-left:3px solid var(--aqua);border-radius:4px;
     padding:32px 30px;margin-bottom:8px;position:relative;overflow:hidden}
-  .qc-eyebrow{font-family:'Jost',sans-serif;font-weight:600;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--aqua-deep)}
+  .qc-eyebrow{font-family:'Jost',sans-serif;font-weight:600;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--deeper)}
   .quickcard h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem;margin:10px 0 8px;color:var(--ink)}
   .quickcard p{color:#6B5B4E;font-size:.94rem;line-height:1.55;margin-bottom:20px;max-width:52ch}
+  .qc-count{color:var(--rose-deep);font-weight:600;font-size:.86rem;margin:-8px 0 18px}
   .qc-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px}
   .qc-row input{padding:14px 16px;font-size:.94rem;border:1px solid var(--line);border-radius:3px;
     background:var(--paper);color:var(--ink);font-family:'Jost',sans-serif}
   .qc-row input:focus{outline:none;border-color:var(--aqua)}
-  .qc-btn{background:var(--aqua-deep);padding:14px 26px;font-size:.72rem;white-space:nowrap}
-  .qc-btn:hover{background:#085a55}
+  .qc-btn{background:var(--halo);color:var(--deeper);padding:14px 26px;font-size:.72rem;white-space:nowrap}
+  .qc-btn:hover{background:#EFAE44}
   #qerr{font-size:.82rem;color:#B23A52;margin-top:10px;display:none}
   #quick-done{display:none;text-align:center;padding:8px 0}
   #quick-done h3{margin-bottom:6px}
@@ -203,6 +216,7 @@
   .formtop h2{font-size:clamp(2.1rem,4.2vw,3rem)}
   .formtop h2 em{font-style:italic;color:var(--rose-deep)}
   .formtop p{color:#6B5B4E;font-weight:400;margin-top:18px;max-width:44ch;margin-inline:auto}
+  .formtop .scarcity{color:var(--rose-deep);font-weight:500;font-size:.88rem;margin-top:14px}
 
   .sec{margin-bottom:48px}
   .sec-head{display:flex;gap:15px;align-items:baseline;margin-bottom:6px}
@@ -247,6 +261,8 @@
 
   #err{font-size:.88rem;color:#B23A52;margin-bottom:20px;display:none;text-align:center}
   .fine{font-size:.78rem;color:#7A6C5C;margin-top:20px;line-height:1.65;text-align:center}
+  .fine a,.qc-fine a{color:var(--deeper);text-decoration:underline}
+  .qc-fine{font-size:.76rem;color:#7A6C5C;margin-top:14px;line-height:1.6}
 
   #done{display:none;text-align:center;padding:36px 0}
   #done h2{font-size:clamp(2.2rem,4.6vw,3rem);margin-bottom:20px}
@@ -254,8 +270,21 @@
   #done p{color:#6B5B4E;font-weight:400;max-width:42ch;margin-inline:auto}
   #done .also{margin-top:18px;color:var(--ink)}
   #done .social{margin-top:34px}
-  #done .social a{display:inline-block;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--paper);background:var(--deeper);padding:16px 32px;border-radius:2px;text-decoration:none;transition:background .25s var(--ease)}
-  #done .social a:hover{background:#1F1611}
+  #done .social a{display:inline-block;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--paper);background:var(--deep);padding:16px 32px;border-radius:2px;text-decoration:none;transition:background .25s var(--ease)}
+
+  /* SHARE BLOCK on success screens */
+  .share-block{margin-top:34px;padding-top:28px;border-top:1px solid var(--line)}
+  .share-ask{font-size:.94rem;color:#6B5B4E;font-weight:400;max-width:38ch;margin:0 auto 16px}
+  .share-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .share-btn{background:var(--deep);color:var(--paper);border:none;padding:13px 26px;font-size:.72rem;
+    letter-spacing:.16em;text-transform:uppercase;font-weight:500;border-radius:2px;cursor:pointer;
+    font-family:'Jost',sans-serif;transition:background .2s var(--ease)}
+  .share-btn:hover{background:var(--deeper)}
+  .share-btn-ghost{background:transparent;color:var(--deeper);border:1px solid var(--line)}
+  .share-btn-ghost:hover{background:var(--paper);border-color:var(--deep)}
+  .share-copied{font-size:.78rem;color:var(--deep);margin-top:12px;opacity:0;transition:opacity .2s var(--ease);height:16px}
+  .share-copied.show{opacity:1}
+  #done .social a:hover{background:#0A5F68}
   .hide{display:none}
 
   /* FOOTER */
@@ -267,6 +296,13 @@
   footer .meta a:hover{color:var(--halo)}
   footer .copy{width:100%;font-size:.68rem;color:#B3A08B;letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(216,199,180,.2);padding-top:26px;margin-top:10px}
 
+  @media(max-width:900px){
+    .hero .wrap.hero-grid{grid-template-columns:1fr;gap:40px;text-align:center;padding-bottom:44px}
+    .hero-copy{display:flex;flex-direction:column;align-items:center}
+    .hero h1,.hero p.sub,.hero .kicker,.hero .range{margin-left:auto;margin-right:auto}
+    .hero-photo{order:3;max-width:340px;margin:8px auto 0}
+    .hero-photo img{max-height:440px}
+  }
   @media(max-width:620px){
     section.block{padding:78px 0}
     .signup-sec{padding:76px 0 88px}
@@ -283,7 +319,7 @@
     .hero{background:linear-gradient(180deg,#FFFCF8 0%,#FAF2E7 100%)!important}
     .trust,.signup-sec{background-color:#FAF2E7!important}
     .either{background-color:#F2E5D4!important}
-    footer{background-color:#33241B!important}
+    footer{background-color:#093840!important}
     
     footer .meta a{color:#F5EEE3!important}
     header{background:rgba(255,252,248,.86)!important}
@@ -298,12 +334,12 @@
   .method{background-image:linear-gradient(#FAF2E7,#FAF2E7)!important}
   .trust,.signup-sec{background-image:linear-gradient(#FAF2E7,#FAF2E7)!important}
   .either{background-image:linear-gradient(#F2E5D4,#F2E5D4)!important}
-  footer{background-image:linear-gradient(#33241B,#33241B)!important}
+  footer{background-image:linear-gradient(#093840,#093840)!important}
   header{background-image:linear-gradient(rgba(255,252,248,.9),rgba(255,252,248,.9))!important}
   .pillar,.lvl,.chip,.opt,input,textarea{background-image:linear-gradient(#FFFCF8,#FFFCF8)!important}
-  .btn,.nav-cta{background-image:linear-gradient(#33241B,#33241B)!important;color:#FFFCF8!important}
-  .qc-btn{background-image:linear-gradient(#0A6E68,#0A6E68)!important;color:#FFFCF8!important}
-  .btn-sun{background-image:linear-gradient(#F4B85A,#F4B85A)!important;color:#33241B!important}
+  .btn,.nav-cta{background-image:linear-gradient(#0E8A94,#0E8A94)!important;color:#FFFCF8!important}
+  .qc-btn{background-image:linear-gradient(#FFB35C,#FFB35C)!important;color:#093840!important}
+  .btn-sun{background-image:linear-gradient(#FFB35C,#FFB35C)!important;color:#093840!important}
   .opt.on{background-image:linear-gradient(#FDF0F3,#FDF0F3)!important}
   .chip.on{background-image:linear-gradient(#FDF1DC,#FDF1DC)!important}
   .opt.gold.on{background-image:linear-gradient(#FDF1DC,#FDF1DC)!important}
@@ -346,7 +382,7 @@
     <nav class="nav-links">
       <a href="#results">Results</a>
       <a href="#method">The Method</a>
-      <a href="#story">Our Story</a>
+      <a href="#story">Community</a>
       <a href="#signup" class="nav-cta">Be a model</a>
     </nav>
   </div>
@@ -355,25 +391,32 @@
 <!-- HERO -->
 <section class="hero">
   <div class="sun"></div>
-  <div class="wrap">
-    <p class="eyebrow nolead"><span class="ping"></span> Now casting hair models</p>
-    <h1>Free highlights, <em>placed by hand.</em></h1>
-    <p class="sub">
-      I'm a licensed master stylist and I'm looking for hair to lighten. You get the session,
-      you keep the color, and there's no fee. <b>The catch is the photos.</b> That's the whole catch.
-    </p>
-    <p class="kicker">Not near me? Sign up anyway. I'm mapping where to go next.</p>
-    <a href="#signup" class="btn">Put my name in</a>
-    <p class="proof">As seen on TikTok — <b>20K+ views</b> in the first week</p>
-    <div class="horizon"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow nolead"><span class="ping"></span> Now casting hair models</p>
+      <h1>A color refresh, <em>between visits.</em></h1>
+      <p class="sub">
+        Veyla is a new highlighting tool built to refresh your color at home, between salon
+        visits. Before it launches, we're testing it on real hair.
+        <b>Yours could be next.</b>
+      </p>
+      <p class="range">Highlights &nbsp;·&nbsp; Babylights &nbsp;·&nbsp; Money pieces &nbsp;·&nbsp; Grey blending &nbsp;·&nbsp; Regrowth refresh</p>
+      <p class="kicker">Not nearby? Join the list anyway — you'll be first to know when it's ready.</p>
+      <a href="#signup" class="btn">Put my name in</a>
+    </div>
+    <div class="hero-photo" id="results">
+      <img src="hair-texture.jpg" width="700" height="2426" loading="eager" decoding="async" alt="Real dimensional highlights — warm, sun-kissed color with movement">
+    </div>
   </div>
+  <div class="horizon"></div>
 </section>
 
 <!-- TRUST -->
+<svg class="wave-mark" viewBox="0 0 1200 34" preserveAspectRatio="none" aria-hidden="true" style="margin-bottom:-1px">
+  <path d="M0,19 C150,34 350,2 600,20 C850,36 1050,4 1200,20"></path>
+</svg>
 <div class="trust">
   <div class="wrap">
-    <span><b>No</b> fee, ever</span>
-    <span><b>Placed</b> by a master stylist</span>
     <span><b>Every</b> hair color welcome</span>
     <span><b>You</b> keep the color</span>
     <span><b>Ninety</b> second signup</span>
@@ -385,28 +428,28 @@
   <div class="wrap reveal">
     <span class="eyebrow nolead">What this is</span>
     <p class="intro-copy">
-      I'm a licensed master stylist. I'll tell you what your hair can actually do at home,
-      what it can't, and why your last box dye went orange. <b>I'm also building something</b> —
-      a prototype in research and development, made for placing your own highlights exactly
-      where you want them. The sessions are how I learn what real hair needs.
+      Hair grows. Roots come in, highlights drift further from your part.
+      <b>Veyla is a new tool built for what happens next</b> — a refresh, or just a few
+      pieces back, done yourself, at home, without redoing your whole color. It's currently
+      in research and development, and real hair is how we get it right.
     </p>
-    <p class="intro-note">Free either way. Whether or not you ever buy a thing.</p>
+    <p class="intro-note">Free to test. No purchase, ever, required to be part of it.</p>
   </div>
 </section>
 
 <!-- WHY -->
-<section class="block" id="results">
+<section class="block">
   <div class="wrap">
     <div class="lead reveal">
       <span class="eyebrow">Why Veyla</span>
       <h2>The dimension a colorist builds — <span class="sea">now it's just a Veyla away.</span></h2>
-      <p>Box dye goes flat and all-over. A salon gives you depth and brightness that catches the light. Veyla is the tool that puts that in your own hands.</p>
+      <p>Hair grows — roots come in, highlights move away from your part. Sometimes that means wanting a refresh. Sometimes it's just a few pieces back. Veyla does either, yourself, between visits.</p>
     </div>
     <div class="pillars reveal">
       <div class="pillar">
         <span class="num">01 / Depth</span>
         <h3>Dimensional, not flat</h3>
-        <p>Real depth and brightness — color placed the way a colorist builds it, so light actually moves through your hair.</p>
+        <p>Light and dark pieces, placed together on purpose. That contrast is what reads as movement instead of one flat tone.</p>
       </div>
       <div class="pillar">
         <span class="num">02 / Control</span>
@@ -419,9 +462,9 @@
         <p>Brighten with lightener or blend away grays with color — Veyla works with whatever's already in your routine.</p>
       </div>
       <div class="pillar">
-        <span class="num">04 / Origin</span>
-        <h3>Stylist-made</h3>
-        <p>Created by a working master colorist who got tired of telling clients there was no good at-home option. So she made one.</p>
+        <span class="num">04 / Trained</span>
+        <h3>Colorist-built</h3>
+        <p>Built and tested by licensed master colorists — the same standard used behind the chair, made to work in your hands.</p>
       </div>
     </div>
   </div>
@@ -453,25 +496,31 @@
       </div>
     </div>
     <div class="method-link reveal">
-      <a href="method.html" class="btn btn-sun">See the three levels</a>
+      <a href="https://www.tiktok.com/@veylahairtool/photo/7612106586747653384?_r=1&_t=ZS-9940JT21JIe" target="_blank" rel="noopener" class="btn btn-sun">See the three levels</a>
     </div>
   </div>
 </section>
 
 <!-- EITHER -->
 <section class="either">
+  <svg class="wave-mark" viewBox="0 0 1200 34" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20 C150,2 350,34 600,17 C850,2 1050,32 1200,15"></path>
+  </svg>
   <div class="wrap">
     <h2>Lightener or color — your routine, your way.</h2>
     <p>Brighten with lightener, or blend away grays with color. Whatever level you choose, the method works with what's already in your kit.</p>
   </div>
+  <svg class="wave-mark" viewBox="0 0 1200 34" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,17 C150,32 350,2 600,19 C850,34 1050,2 1200,19"></path>
+  </svg>
 </section>
 
-<!-- STORY -->
+<!-- COMMUNITY -->
 <section class="block founder" id="story">
   <div class="wrap reveal">
-    <span class="eyebrow nolead">Our Story</span>
-    <blockquote>I moved cities, couldn't get to my own colorist, and found out fast that foils are impossible on yourself — <em>even when you do this for a living.</em></blockquote>
-    <p class="sig">Created by a licensed master stylist</p>
+    <span class="eyebrow nolead">The Community</span>
+    <blockquote>Every highlight placed here shapes what ships later. <em>You're not watching this happen. You're in it.</em></blockquote>
+    <p class="sig">Built with real hair, not a focus group</p>
   </div>
 </section>
 
@@ -485,6 +534,7 @@
         <span class="qc-eyebrow">Not looking to model?</span>
         <h3>Just want first access?</h3>
         <p>Leave your email and we'll tell you the moment Veyla is ready to buy. No models, no questions, no catch.</p>
+        <p class="qc-count" id="signupCount" style="display:none"></p>
         <div class="qc-row">
           <label for="qname" class="vh">First name</label><input type="text" id="qname" placeholder="First name (optional)" autocomplete="given-name" />
           <label for="qcity" class="vh">City</label><input type="text" id="qcity" placeholder="City" autocomplete="address-level2" />
@@ -492,10 +542,19 @@
           <button class="btn qc-btn" id="qgo" type="button">Notify me</button>
         </div>
         <div id="qerr"></div>
+        <p class="qc-fine">We'll only email you about Veyla's launch. Unsubscribe anytime. <a href="privacy.html">Privacy Policy</a>.</p>
       </div>
       <div id="quick-done">
         <h3>You're on the list.</h3>
         <p>We'll email you the moment Veyla launches.</p>
+        <div class="share-block">
+          <p class="share-ask">Know someone who'd want in? The more people who see this, the sooner it's real.</p>
+          <div class="share-row">
+            <button class="share-btn" id="qshare" type="button">Share</button>
+            <button class="share-btn share-btn-ghost" id="qcopy" type="button">Copy link</button>
+          </div>
+          <p class="share-copied" id="qcopied">Copied.</p>
+        </div>
       </div>
     </div>
 
@@ -506,6 +565,7 @@
         <span class="eyebrow nolead">Put your name in</span>
         <h2>Six questions. <em>Be honest.</em></h2>
         <p>The more real your answers, the better we can plan a session and the more useful what we send back is going to be.</p>
+        <p class="scarcity">We can only take a limited number of real people through testing at a time.</p>
       </div>
 
       <div class="sec">
@@ -560,7 +620,7 @@
 
       <div id="err"></div>
       <button class="btn btn-sun full" id="go" type="button">Count me in</button>
-      <p class="fine">If we ever photograph a session together, you'll sign off on the images first. No fee either way.</p>
+      <p class="fine">If we ever photograph a session together, you'll sign off on the images first. No fee either way. By signing up, you agree to be contacted about your session. Unsubscribe anytime. <a href="privacy.html">Privacy Policy</a>.</p>
     </div>
 
     <div id="done">
@@ -568,6 +628,14 @@
       <p>You're on the list. <span id="doneCity">Your city</span> is on the map now, and you'll hear from us when we're shooting near you.</p>
       <p class="also">The free education lives on TikTok in the meantime.</p>
       <p class="social"><a href="https://tiktok.com/@veylahairtool" target="_blank" rel="noopener">@veylahairtool →</a></p>
+      <div class="share-block">
+        <p class="share-ask">Know someone who'd want in? The more real hair we see, the sooner this is ready.</p>
+        <div class="share-row">
+          <button class="share-btn" id="dshare" type="button">Share</button>
+          <button class="share-btn share-btn-ghost" id="dcopy" type="button">Copy link</button>
+        </div>
+        <p class="share-copied" id="dcopied">Copied.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -579,6 +647,7 @@
       <a href="https://instagram.com/veylahairtool" target="_blank" rel="noopener">Instagram</a>
       <a href="https://tiktok.com/@veylahairtool" target="_blank" rel="noopener">TikTok</a>
       <a href="mailto:hello@veylahair.com">hello@veylahair.com</a>
+      <a href="privacy.html">Privacy</a>
       <a href="#signup">Be a model</a>
     </div>
     <p class="copy">© 2026 Veyla&trade; · The Highlight Halo Method · veylahair.com</p>
@@ -602,7 +671,7 @@
     ["education","Send me the free education","How to place your own highlights, from a licensed master stylist"],
     ["launch","Tell me when it's ready","First access when the tool launches"],
     ["tester","I'd try an early version","We'll ask before we send anything"],
-    ["session","Model for a session in person","Free. You keep the color, we keep the photos."]
+    ["session","Model for a session in person","Free. You test the tool, we keep the photos."]
   ];
 
   var level=null,status="",goals=[],optins=[];
@@ -727,6 +796,45 @@
       if(e.key==="Enter"){ e.preventDefault(); document.getElementById("go").click(); }
     });
   });
+
+  // SHARE / COPY LINK — both success screens
+  var SHARE_URL = "https://veylahair.com";
+  var SHARE_TEXT = "A licensed master stylist is testing a new highlighting tool. I put my name in — worth a look.";
+
+  function wireShare(shareId, copyId, copiedId){
+    var shareBtn = document.getElementById(shareId);
+    var copyBtn = document.getElementById(copyId);
+    var copiedNote = document.getElementById(copiedId);
+    if(!shareBtn) return;
+
+    shareBtn.onclick = function(){
+      if(navigator.share){
+        navigator.share({ title:"Veyla", text:SHARE_TEXT, url:SHARE_URL }).catch(function(){});
+      } else {
+        copyBtn.click();
+      }
+    };
+    copyBtn.onclick = function(){
+      var text = SHARE_TEXT + " " + SHARE_URL;
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){
+          copiedNote.classList.add("show");
+          setTimeout(function(){ copiedNote.classList.remove("show"); }, 2200);
+        });
+      }
+    };
+  }
+  wireShare("qshare","qcopy","qcopied");
+  wireShare("dshare","dcopy","dcopied");
+
+  // SIGNUP COUNTER — set a real number below (from your Netlify Forms submission
+  // count) and it will show. Leave as null and it stays hidden. Never guess this number.
+  var SIGNUP_COUNT = null;
+  if(SIGNUP_COUNT){
+    var countEl = document.getElementById("signupCount");
+    countEl.textContent = SIGNUP_COUNT + " people are already on the list";
+    countEl.style.display = "block";
+  }
 </script>
 </body>
 </html>
