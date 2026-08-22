@@ -381,7 +381,7 @@
         <b>Yours could be next.</b>
       </p>
       <p class="range">Highlights &nbsp;·&nbsp; Babylights &nbsp;·&nbsp; Money&nbsp;pieces &nbsp;·&nbsp; Grey&nbsp;blending &nbsp;·&nbsp; Regrowth&nbsp;refresh</p>
-      <p class="kicker">Not nearby? Join the list anyway — you'll be first to know when it's ready.</p>
+      <p class="kicker">Not in Victoria? Join the list anyway — you'll be first to know when it's ready.</p>
       <a href="#signup" class="btn">Put my name in</a>
     </div>
     <div class="hero-photo" id="results">
@@ -759,6 +759,19 @@
   }
   wireShare("qshare","qcopy","qcopied");
   wireShare("dshare","dcopy","dcopied");
+
+  // RESET ON PAGE RESTORE — if a browser shows a cached "back" version of this
+  // page after someone already submitted, force both forms back to their
+  // starting state so nobody sees a false "you're in" without filling anything out.
+  function resetForms(){
+    document.getElementById("quick-body").style.display = "";
+    document.getElementById("quick-done").style.display = "none";
+    document.getElementById("form").style.display = "";
+    document.getElementById("done").style.display = "none";
+  }
+  window.addEventListener("pageshow", function(e){
+    if(e.persisted) resetForms();
+  });
 
   // SIGNUP COUNTER — set a real number below (from your Netlify Forms submission
   // count) and it will show. Leave as null and it stays hidden. Never guess this number.
