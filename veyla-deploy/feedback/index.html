@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Veyla — Session Feedback</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --ivory:#FBF7F0; --ink:#0F2A2C; --ink-60:rgba(15,42,44,.62); --ink-30:rgba(15,42,44,.28);
+  --teal:#0E8A94; --amber:#E8A33D; --maxw:660px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--ivory);color:var(--ink);font-family:'Jost',system-ui,sans-serif;
+  font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:120px}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.32;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.5'/></svg>")}
+.wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+.levelbar{position:sticky;top:0;z-index:20;background:var(--ivory);padding:14px 0 12px;border-bottom:1px solid rgba(15,42,44,.09)}
+.levelbar.hide{display:none}
+.levels{display:flex;gap:3px;height:9px}
+.lv{flex:1;border-radius:2px;background:rgba(15,42,44,.09);transition:background .5s cubic-bezier(.2,.7,.2,1)}
+.levelmeta{display:flex;justify-content:space-between;align-items:baseline;margin-top:9px}
+.eyebrow{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-60);font-weight:500}
+.levelnote{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:600}
+
+header{padding:44px 0 8px}
+.logo{font-weight:600;letter-spacing:.38em;font-size:14px;text-transform:uppercase}
+h1{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(34px,8.5vw,50px);line-height:1.02;letter-spacing:-.015em;margin:22px 0 0}
+h1 em{font-style:italic;color:var(--teal)}
+.dek{color:var(--ink-60);margin:16px 0 0;max-width:46ch;font-size:16px}
+.rule{height:1px;background:rgba(15,42,44,.12);margin:34px 0 30px}
+
+.step{display:none;animation:rise .45s cubic-bezier(.2,.7,.2,1)}
+.step.on{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.step{animation:none}*{transition:none!important}}
+.stephead{margin-bottom:26px}
+.stephead h2{font-family:'Fraunces',serif;font-weight:400;font-size:26px;margin:6px 0 0;letter-spacing:-.01em}
+.stephead p{color:var(--ink-60);font-size:15px;margin:6px 0 0}
+
+.q{margin:0 0 30px}
+.q > label.qlabel{display:block;font-size:17px;font-weight:500;margin-bottom:4px}
+.qhelp{font-size:13.5px;color:var(--ink-60);margin:0 0 12px}
+.req{color:var(--amber);font-weight:600}
+
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{font:inherit;font-size:15px;cursor:pointer;background:transparent;color:var(--ink);
+  border:1px solid rgba(15,42,44,.22);border-radius:999px;padding:9px 15px;transition:all .16s ease}
+.opt:hover{border-color:var(--teal);color:var(--teal)}
+.opt[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:var(--ivory)}
+.opt:focus-visible,input:focus-visible,textarea:focus-visible,.btn:focus-visible,.sc:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+.scale{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.sc{width:46px;height:46px;border-radius:50%;border:1px solid rgba(15,42,44,.22);background:transparent;font:inherit;font-size:15px;cursor:pointer;transition:all .16s ease}
+.sc.nps{width:38px;height:38px;font-size:14px;border-radius:8px}
+.sc:hover{border-color:var(--teal)}
+.sc[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ivory)}
+.scends{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-60);margin-top:8px;max-width:340px}
+.scends.wide{max-width:100%}
+
+input[type=text],input[type=email],textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);
+  background:rgba(255,255,255,.6);border:1px solid rgba(15,42,44,.2);border-radius:10px;
+  padding:12px 14px;transition:border-color .16s ease}
+input:focus,textarea:focus{border-color:var(--teal)}
+textarea{min-height:104px;resize:vertical;line-height:1.45}
+::placeholder{color:var(--ink-30)}
+.err{color:#B4451F;font-size:13.5px;margin-top:8px;display:none}
+.err.show{display:block}
+
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:linear-gradient(to top,var(--ivory) 62%,rgba(251,247,240,0));padding:20px 22px 24px}
+.nav.hide{display:none}
+.navin{max-width:var(--maxw);margin:0 auto;display:flex;gap:12px;align-items:center}
+.btn{font:inherit;font-size:16px;font-weight:500;cursor:pointer;border-radius:999px;padding:15px 30px;border:1px solid var(--ink);transition:all .16s ease}
+.btn-primary{background:var(--ink);color:var(--ivory);flex:1}
+.btn-primary:hover{background:var(--teal);border-color:var(--teal)}
+.btn-primary[disabled]{opacity:.5;cursor:wait}
+.btn-ghost{background:transparent;color:var(--ink);border-color:rgba(15,42,44,.22);padding:15px 22px}
+.btn-ghost:hover{border-color:var(--ink)}
+
+.gate{padding:80px 0 40px;max-width:400px}
+.gate h2{font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:34px;margin:18px 0 0;color:var(--teal)}
+.gate p{color:var(--ink-60);margin:12px 0 22px;font-size:15px}
+.gate .btn{margin-top:14px;width:100%}
+
+.done{display:none;text-align:center;padding:70px 0 40px}
+.done.on{display:block}
+.done h2{font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:38px;margin:24px 0 0;color:var(--teal)}
+.done p{color:var(--ink-60);max-width:38ch;margin:14px auto 0}
+.halo{width:82px;height:82px;margin:0 auto;display:block}
+footer{text-align:center;color:var(--ink-30);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:44px 0 0}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="levelbar hide" id="levelbar">
+  <div class="wrap">
+    <div class="levels" id="levels" aria-hidden="true"></div>
+    <div class="levelmeta">
+      <span class="eyebrow" id="stepcount">Step 1 of 5</span>
+      <span class="levelnote" id="levelnote">Level 1</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="gate" id="gate">
+    <div class="logo">Veyla</div>
+    <h2>Hi again.</h2>
+    <p>Enter the code from your email to open your feedback form.</p>
+    <input type="text" id="code" placeholder="Your code" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <p class="err" id="codeerr">That code doesn't match. Check your email, or reply to it and we'll resend.</p>
+    <button class="btn btn-primary" id="codego">Open the form</button>
+  </div>
+
+  <header id="head" class="hidden">
+    <div class="logo">Veyla</div>
+    <h1>Tell us what <em>actually</em> happened.</h1>
+    <p class="dek">You've used it. Now we need the unvarnished version. What worked, what didn't, and what you'd change if it were up to you. Nothing here is too blunt. Blunt is the point. About five minutes.</p>
+    <p class="dek" style="margin-top:12px">Your answers go to the engineering team building the next version. Your name and email stay with Maxine and never reach them, so say the harsh thing.</p>
+  </header>
+  <div class="rule hidden" id="rule"></div>
+
+  <form id="form" class="hidden" novalidate>
+    <div style="position:absolute;left:-9999px" aria-hidden="true">
+      <label for="website">Website</label>
+      <input type="text" id="website" tabindex="-1" autocomplete="off">
+    </div>
+    <div id="steps"></div>
+  </form>
+
+  <div class="done" id="done">
+    <svg class="halo" viewBox="0 0 100 100" fill="none" stroke="#0E8A94" stroke-width="1.4">
+      <ellipse cx="50" cy="42" rx="34" ry="12"/><path d="M22 46c0 24 12 38 28 38s28-14 28-38"/>
+    </svg>
+    <h2>Got it. Thank you.</h2>
+    <p>This goes straight to the people building the next version. If you think of something else later, just email hello@veylahair.com.</p>
+  </div>
+
+  <footer>Veyla · Confidential</footer>
+</div>
+
+<div class="nav hide" id="nav">
+  <div class="navin">
+    <button type="button" class="btn btn-ghost" id="back" style="display:none">Back</button>
+    <button type="button" class="btn btn-primary" id="next">Continue</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const SUPABASE_URL  = "https://kpeiazlbpnqolinutarf.supabase.co";
+const SUPABASE_ANON = "sb_publishable_Q1dxDZjFKlVRpz_hpw0c2w_Ksg3hv4W";
+const ACCESS_CODE   = "";   // no code. Put a word here if you ever want to gate it again.
+
+/* ============================================================
+   QUESTIONS — post-session feedback
+   pii:true is stored but never reaches the results page
+   ============================================================ */
+const STEPS = [
+  {
+    title:"You and your session",
+    note:"Quick context so we can match your feedback to your hair.",
+    qs:[
+      {id:"full_name", label:"Your name", type:"text", required:true, pii:true, placeholder:"First and last"},
+      {id:"email", label:"Email", type:"email", required:true, pii:true, placeholder:"you@email.com"},
+      {id:"session_when", label:"When was your session?", type:"single", required:true,
+        options:["This week","1–2 weeks ago","3–4 weeks ago","Over a month ago"]},
+      {id:"who_applied", label:"Who did the application?", type:"single", required:true,
+        options:["I did it myself","Mostly me, some help","Mostly Maxine","Maxine did it, I watched"]},
+      {id:"hair_length", label:"Your length at the time", type:"single", required:true,
+        options:["Pixie or shorter","Chin to bob","Shoulder","Mid-back","Long"]},
+      {id:"hair_texture", label:"Your texture", type:"single", required:true,
+        options:["Straight","Wavy","Curly","Coily"]},
+      {id:"hair_density", label:"How much hair you have", type:"single", required:true,
+        options:["Fine / not much of it","Medium","Thick","Very thick"]},
+      {id:"diy_history", label:"Have you coloured your own hair before?", type:"multi", required:true,
+        help:"Everything you've ever done at home. No judgement, this is the useful part.",
+        options:["Box dye","An at-home highlight kit","Bleach from a beauty supply","Toner or gloss",
+                 "Root touch-up spray","Cut my own bangs (respect)","Never, this was my first time"]},
+      {id:"diy_outcome", label:"How did that go?", type:"single",
+        help:"Skip if this was your first time.",
+        options:["Great, honestly","Fine","Regretted it","Had to pay someone to fix it","Never tried"]}
+    ]
+  },
+  {
+    title:"What happened",
+    note:"Long answers welcome. Specifics beat politeness.",
+    qs:[
+      {id:"went_right", label:"What went right?", type:"textarea", required:true,
+        help:"The parts that felt easy, obvious, or better than you expected.",
+        placeholder:"Even small things. What clicked?"},
+      {id:"went_wrong", label:"What went wrong?", type:"textarea", required:true,
+        help:"Where you got stuck, confused, frustrated, or had to redo something. Please don't spare our feelings.",
+        placeholder:"Be specific about the moment it went sideways."},
+      {id:"needed_help", label:"Did you need help at any point?", type:"single", required:true,
+        options:["No, I was fine","A little guidance","Yes, quite a bit","I couldn't have done it alone"]},
+      {id:"session_length_feel", label:"How long did it feel?", type:"single", required:true,
+        options:["Faster than I expected","About what I expected","Longer than I expected","Way longer than I expected"]}
+    ]
+  },
+  {
+    title:"How it felt",
+    note:"Three different kinds of comfortable.",
+    qs:[
+      {id:"comfort_using", label:"How comfortable did you feel using it?", type:"scale", required:true,
+        help:"Confidence. Did you know what you were doing?",
+        low:"Completely lost", high:"Totally in control"},
+      {id:"comfort_physical", label:"How comfortable was it physically?", type:"scale", required:true,
+        help:"Your hands, arms, neck, scalp.",
+        low:"Genuinely uncomfortable", high:"Didn't notice a thing"},
+      {id:"comfort_session", label:"How comfortable did you feel overall during the session?", type:"scale", required:true,
+        help:"Relaxed and enjoying it, or a bit on edge?",
+        low:"On edge the whole time", high:"Completely relaxed"},
+      {id:"friction", label:"Did any of these come up?", type:"multi",
+        help:"Pick everything that applies. Nothing is too petty.",
+        options:["It felt heavy","Awkward to hold","Couldn't reach the back of my head","My arms got tired",
+                 "Couldn't see what I was doing","Hair got tangled","Messier than I expected",
+                 "Hard to be precise","Nervous I'd ruin it","Nothing bothered me"]},
+      {id:"nervous_moment", label:"Was there a moment you thought \u201cthis isn't going to work\u201d?", type:"textarea",
+        help:"Optional. If so, when exactly?",
+        placeholder:"What was happening right then?"}
+    ]
+  },
+  {
+    title:"The results",
+    note:"How it actually turned out.",
+    qs:[
+      {id:"results_rating", label:"How happy are you with the results?", type:"scale", required:true,
+        low:"Not at all", high:"Thrilled"},
+      {id:"vs_salon", label:"Compared to salon highlights", type:"single", required:true,
+        options:["Better than my salon","Just as good","Close, but not quite","Noticeably not as good","I don't get salon highlights"]},
+      {id:"noticed", label:"Did anyone notice?", type:"single",
+        options:["Yes, unprompted compliments","Yes, someone asked about it","Nobody said anything","I told them first","Too soon to say"]},
+      {id:"results_change", label:"What about the result would you change?", type:"textarea",
+        help:"Placement, brightness, tone, how much, where.",
+        placeholder:"More around the face, less at the back, warmer, whatever it is."},
+      {id:"holding_up", label:"How is it holding up?", type:"single",
+        options:["Still looks great","Fine, softening a bit","Went brassy","Faded fast","Too soon to say"]}
+    ]
+  },
+  {
+    title:"If it were up to you",
+    note:"Last part. This is the section the engineers read first.",
+    qs:[
+      {id:"use_at_home", label:"Would you use this at home?", type:"single", required:true,
+        options:["Yes, definitely","Probably","Not sure","Probably not","No"]},
+      {id:"home_blocker", label:"What's the main thing standing in the way?", type:"single",
+        help:"Even if you said yes.",
+        options:["Nothing, I'd just do it","Worried I'd mess it up","Takes too long","The cost",
+                 "The mess","I'd rather someone else did it","Not confident without supervision"]},
+      {id:"where_home", label:"Where in your home would you do it?", type:"single",
+        options:["Bathroom","Bedroom mirror","Kitchen","Outside or garage","Wouldn't do it at home"]},
+      {id:"alone_or_help", label:"Alone or with someone?", type:"single",
+        options:["On my own","With a friend, for fun","I'd want someone helping me","I'd do it on someone else"]},
+      {id:"frequency", label:"How often would you use it?", type:"single",
+        options:["Every 4–6 weeks","Every 2–3 months","A few times a year","Once, to try it","Never"]},
+      {id:"price", label:"What would you pay for it?", type:"single", required:true,
+        help:"Honestly. A number you'd actually hand over.",
+        options:["Under $50","$50–80","$80–120","$120–180","$180+","Wouldn't buy it"]},
+      {id:"consumable_intent", label:"Would you buy lightener made to go with it?", type:"single", required:true,
+        help:"Rather than picking up your own from a beauty supply or the drugstore.",
+        options:["Yes, I'd want the one made for it","Yes, if the price is fair",
+                 "Only if nothing else works properly","No, I'd use my own",
+                 "I'd want my stylist to supply it","Not sure"]},
+      {id:"consumable_price", label:"And what would you pay for one application's worth?", type:"single", required:true,
+        help:"Enough lightener for one session.",
+        options:["Under $15","$15–25","$25–40","$40–60","Over $60","Wouldn't buy it"]},
+      {id:"other_uses", label:"What else would you use it for?", type:"textarea",
+        help:"Roots, ends, money piece, your kid's hair, your friend's hair, something we haven't thought of.",
+        placeholder:"Wherever your mind went."},
+      {id:"one_change", label:"You're the designer now. One change.", type:"textarea", required:true,
+        help:"If you could change one thing about the tool itself, what is it?",
+        placeholder:"Make it ___ / smaller / lighter / easier to ___"},
+      {id:"would_add", label:"And one thing you'd add.", type:"textarea",
+        help:"Optional. Something that would have made your session easier.",
+        placeholder:"A ___ would have helped."},
+      {id:"recommend", label:"Would you tell a friend about it?", type:"nps", required:true,
+        low:"Absolutely not", high:"Already have"},
+      {id:"anything_else", label:"Anything else", type:"textarea",
+        help:"Optional. The floor is yours.", placeholder:""}
+    ]
+  }
+];
+
+/* ============================================================
+   GATE
+   ============================================================ */
+const gate=document.getElementById("gate");
+function openForm(){
+  gate.style.display="none";
+  ["head","rule","form"].forEach(id=>document.getElementById(id).classList.remove("hidden"));
+  document.getElementById("levelbar").classList.remove("hide");
+  document.getElementById("nav").classList.remove("hide");
+  try{ sessionStorage.setItem("veyla_fb","1"); }catch(e){}
+}
+document.getElementById("codego").addEventListener("click",tryCode);
+document.getElementById("code").addEventListener("keydown",e=>{if(e.key==="Enter")tryCode();});
+function tryCode(){
+  const v=document.getElementById("code").value.trim().toLowerCase();
+  if(v===ACCESS_CODE.toLowerCase()) openForm();
+  else document.getElementById("codeerr").classList.add("show");
+}
+let unlocked=false;
+try{ unlocked = sessionStorage.getItem("veyla_fb")==="1"; }catch(e){}
+if(!ACCESS_CODE || unlocked) openForm();
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+const LEVEL_COLORS=["#1B1512","#2E211A","#452F22","#5D412B","#7A5636","#9A7145","#B99058","#D2AE74","#E4C99A","#F0DFBE"];
+const answers={}; let current=0;
+const stepsEl=document.getElementById("steps"), levelsEl=document.getElementById("levels");
+LEVEL_COLORS.forEach(()=>{const d=document.createElement("div");d.className="lv";levelsEl.appendChild(d);});
+
+STEPS.forEach((s,i)=>{
+  const sec=document.createElement("section");
+  sec.className="step"+(i===0?" on":""); sec.dataset.step=i;
+  sec.innerHTML=`<div class="stephead"><h2>${s.title}</h2><p>${s.note}</p></div>`;
+  s.qs.forEach(q=>sec.appendChild(renderQ(q)));
+  stepsEl.appendChild(sec);
+});
+
+function renderQ(q){
+  const w=document.createElement("div"); w.className="q"; w.dataset.qid=q.id;
+  const star=q.required?' <span class="req">*</span>':'';
+  w.innerHTML=`<label class="qlabel" for="f_${q.id}">${q.label}${star}</label>`+(q.help?`<p class="qhelp">${q.help}</p>`:'');
+
+  if(q.type==="text"||q.type==="email"){
+    const inp=document.createElement("input");
+    inp.type=q.type; inp.id="f_"+q.id; inp.placeholder=q.placeholder||"";
+    inp.autocomplete=q.id==="full_name"?"name":q.id==="email"?"email":"off";
+    inp.addEventListener("input",e=>{answers[q.id]=e.target.value.trim();clearErr(w);});
+    w.appendChild(inp);
+  }
+  else if(q.type==="textarea"){
+    const t=document.createElement("textarea");
+    t.id="f_"+q.id; t.placeholder=q.placeholder||"";
+    t.addEventListener("input",e=>{answers[q.id]=e.target.value.trim();clearErr(w);});
+    w.appendChild(t);
+  }
+  else if(q.type==="single"||q.type==="multi"){
+    const box=document.createElement("div"); box.className="opts"; box.setAttribute("role","group");
+    q.options.forEach(o=>{
+      const b=document.createElement("button");
+      b.type="button"; b.className="opt"; b.textContent=o; b.setAttribute("aria-pressed","false");
+      b.addEventListener("click",()=>{
+        if(q.type==="single"){
+          box.querySelectorAll(".opt").forEach(x=>x.setAttribute("aria-pressed","false"));
+          b.setAttribute("aria-pressed","true"); answers[q.id]=o;
+        }else{
+          const on=b.getAttribute("aria-pressed")==="true";
+          b.setAttribute("aria-pressed",on?"false":"true");
+          const list=answers[q.id]||[];
+          answers[q.id]=on?list.filter(x=>x!==o):[...list,o];
+        }
+        clearErr(w);
+      });
+      box.appendChild(b);
+    });
+    w.appendChild(box);
+  }
+  else if(q.type==="scale"||q.type==="nps"){
+    const isNps=q.type==="nps";
+    const box=document.createElement("div"); box.className="scale";
+    const from=isNps?0:1, to=isNps?10:5;
+    for(let n=from;n<=to;n++){
+      const b=document.createElement("button");
+      b.type="button"; b.className="sc"+(isNps?" nps":""); b.textContent=n;
+      b.setAttribute("aria-pressed","false"); b.setAttribute("aria-label",`${n} out of ${to}`);
+      b.addEventListener("click",()=>{
+        box.querySelectorAll(".sc").forEach(x=>x.setAttribute("aria-pressed","false"));
+        b.setAttribute("aria-pressed","true"); answers[q.id]=n; clearErr(w);
+      });
+      box.appendChild(b);
+    }
+    w.appendChild(box);
+    const ends=document.createElement("div"); ends.className="scends"+(isNps?" wide":"");
+    ends.innerHTML=`<span>${q.low}</span><span>${q.high}</span>`;
+    w.appendChild(ends);
+  }
+
+  const e=document.createElement("p"); e.className="err"; e.textContent="This one's required.";
+  w.appendChild(e);
+  return w;
+}
+function clearErr(w){ w.querySelector(".err").classList.remove("show"); }
+
+const NOTES=["Level 1","Level 3","Level 5","Level 7","Level 10"];
+function paint(){
+  const filled=Math.round(((current+1)/STEPS.length)*10);
+  [...levelsEl.children].forEach((d,i)=>{d.style.background=i<filled?LEVEL_COLORS[i]:"rgba(15,42,44,.09)";});
+  document.getElementById("stepcount").textContent=`Step ${current+1} of ${STEPS.length}`;
+  document.getElementById("levelnote").textContent=NOTES[current]||"Level 10";
+}
+function paintDone(){
+  [...levelsEl.children].forEach((d,i)=>{d.style.background=LEVEL_COLORS[i];});
+  document.getElementById("stepcount").textContent="Submitted";
+  document.getElementById("levelnote").textContent="Level 10";
+}
+paint();
+
+const nextBtn=document.getElementById("next"), backBtn=document.getElementById("back");
+nextBtn.addEventListener("click",()=>{
+  if(!validate(current)) return;
+  if(current<STEPS.length-1) show(current+1); else submit();
+});
+backBtn.addEventListener("click",()=>{ if(current>0) show(current-1); });
+
+function show(i){
+  document.querySelector(".step.on").classList.remove("on");
+  document.querySelector(`.step[data-step="${i}"]`).classList.add("on");
+  current=i; paint();
+  backBtn.style.display=i===0?"none":"block";
+  nextBtn.textContent=i===STEPS.length-1?"Send it":"Continue";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function validate(i){
+  let ok=true, first=null;
+  STEPS[i].qs.forEach(q=>{
+    if(!q.required) return;
+    const v=answers[q.id];
+    const empty=v===undefined||v===""||(Array.isArray(v)&&v.length===0);
+    const badEmail=q.type==="email"&&v&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    const w=document.querySelector(`.q[data-qid="${q.id}"]`);
+    if(empty||badEmail){
+      const e=w.querySelector(".err");
+      e.textContent=badEmail?"That email doesn't look right.":"This one's required.";
+      e.classList.add("show"); ok=false; if(!first) first=w;
+    }
+  });
+  if(first) first.scrollIntoView({behavior:"smooth",block:"center"});
+  return ok;
+}
+
+async function submit(){
+  nextBtn.disabled=true; nextBtn.textContent="Sending\u2026";
+
+  // bot check: real people can't see or fill this field
+  const hp=document.getElementById("website");
+  if(hp && hp.value){ finish(); return; }
+
+  const payload={};
+  STEPS.forEach(s=>s.qs.forEach(q=>{
+    let v=answers[q.id]; if(v===undefined||v==="") v=null; payload[q.id]=v;
+  }));
+  try{
+    const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+    const {error}=await sb.from("session_feedback").insert(payload);
+    if(error) throw error;
+    finish();
+  }catch(err){
+    console.error(err);
+    nextBtn.disabled=false; nextBtn.textContent="Try again";
+    alert("That didn't send. Check your connection and hit Try again. If it keeps failing, email hello@veylahair.com.");
+  }
+}
+
+function finish(){
+  document.getElementById("form").style.display="none";
+  document.getElementById("head").style.display="none";
+  document.getElementById("rule").style.display="none";
+  document.getElementById("nav").style.display="none";
+  document.getElementById("done").classList.add("on");
+  paintDone(); window.scrollTo({top:0});
+}
+</script>
+</body>
+</html>

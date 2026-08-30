@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veyla — Session Feedback Results</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --ink:#0B2224; --ivory:#FBF7F0;
+  --ivory-60:rgba(251,247,240,.62); --ivory-25:rgba(251,247,240,.22); --ivory-10:rgba(251,247,240,.09);
+  --teal:#14B4BE; --teal-dim:#0E8A94; --amber:#E8A33D; --rust:#D06A4A;
+  --maxw:1120px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--ivory);
+  font-family:'Jost',system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.hidden{display:none!important}
+
+/* gate */
+.gate{max-width:400px;margin:0 auto;padding:110px 24px 60px}
+.gate .brand{font-weight:600;letter-spacing:.38em;text-transform:uppercase;font-size:13px}
+.gate h1{font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:34px;margin:20px 0 0;color:var(--teal)}
+.gate p{color:var(--ivory-60);font-size:15px;margin:12px 0 22px}
+.gate input{width:100%;font:inherit;font-size:16px;color:var(--ivory);background:rgba(251,247,240,.06);
+  border:1px solid var(--ivory-25);border-radius:10px;padding:13px 15px}
+.gate input:focus{border-color:var(--teal);outline:none}
+.gate .btn{width:100%;margin-top:14px}
+.gateerr{color:var(--rust);font-size:14px;margin-top:12px;display:none}
+.gateerr.show{display:block}
+
+header{padding:34px 0 28px;border-bottom:1px solid var(--ivory-25)}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:600;letter-spacing:.38em;text-transform:uppercase;font-size:13px}
+.live{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory-60)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+h1.title{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(28px,5vw,40px);letter-spacing:-.015em;margin:22px 0 0}
+h1.title em{font-style:italic;color:var(--teal)}
+.sub{color:var(--ivory-60);font-size:15px;margin:8px 0 0;max-width:60ch}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--ivory-25);
+  border:1px solid var(--ivory-25);border-radius:12px;overflow:hidden;margin:30px 0 0}
+.stat{background:var(--ink);padding:20px 18px}
+.stat .v{font-family:'Fraunces',serif;font-size:34px;font-weight:400;line-height:1.05}
+.stat .v small{font-size:14px;color:var(--ivory-60);font-family:'Jost'}
+.stat .k{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ivory-60);margin-top:8px}
+.stat.hero .v{color:var(--teal)}
+.stat.warn .v{color:var(--amber)}
+
+.smalln{margin:24px 0 0;padding:13px 16px;border:1px solid var(--amber);border-radius:10px;
+  background:rgba(232,162,61,.08);font-size:14px;color:var(--ivory)}
+.smalln b{color:var(--amber);font-weight:600}
+.segs{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 0;align-items:center}
+.segs .lbl{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--ivory-60);margin-right:4px}
+.seg{font:inherit;font-size:13.5px;cursor:pointer;background:transparent;color:var(--ivory-60);
+  border:1px solid var(--ivory-25);border-radius:999px;padding:7px 15px;transition:all .16s}
+.seg:hover{border-color:var(--teal);color:var(--teal)}
+.seg[aria-pressed="true"]{background:var(--teal-dim);border-color:var(--teal-dim);color:var(--ivory)}
+.seg:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.seg .c{opacity:.7;margin-left:5px;font-variant-numeric:tabular-nums}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 0}
+.btn{font:inherit;font-size:14px;cursor:pointer;background:transparent;color:var(--ivory);
+  border:1px solid var(--ivory-25);border-radius:999px;padding:11px 22px;transition:all .16s}
+.btn:hover{border-color:var(--teal);color:var(--teal)}
+.btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+section{padding:46px 0 0}
+.sechead{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--ivory-25);
+  padding-bottom:12px;margin-bottom:26px;flex-wrap:wrap}
+.sechead h2{font-family:'Fraunces',serif;font-weight:400;font-size:22px;margin:0}
+.sechead .why{font-size:13px;color:var(--ivory-60)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px 44px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px}
+.card .qt{font-size:15px;font-weight:500;margin:0 0 14px}
+.row{margin:0 0 11px}
+.rowtop{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;margin-bottom:5px}
+.rowtop .n{color:var(--ivory-60);font-variant-numeric:tabular-nums;white-space:nowrap}
+.track{height:7px;background:var(--ivory-10);border-radius:4px;overflow:hidden}
+.fill{height:100%;background:var(--teal-dim);border-radius:4px;transition:width .7s cubic-bezier(.2,.7,.2,1)}
+.fill.top{background:var(--teal)}
+.fill.amber{background:var(--amber)}
+.fill.rust{background:var(--rust)}
+
+.avg{display:flex;align-items:baseline;gap:10px;margin-top:2px}
+.avgnum{font-family:'Fraunces',serif;font-size:36px;font-weight:400;color:var(--amber)}
+.avgof{color:var(--ivory-60);font-size:13px}
+.pips{display:flex;gap:5px;margin-top:10px}
+.pip{width:26px;height:26px;border-radius:50%;border:1px solid var(--ivory-25);
+  display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ivory-60)}
+.pip.on{background:var(--amber);border-color:var(--amber);color:var(--ink);font-weight:600}
+
+/* quotes */
+.quotes{display:grid;gap:14px}
+.quotes.cols{grid-template-columns:repeat(auto-fit,minmax(320px,1fr));align-items:start}
+.quote{border-left:2px solid var(--teal-dim);padding:3px 0 3px 15px}
+.quote.bad{border-left-color:var(--rust)}
+.quote.key{border-left-color:var(--amber)}
+.quote .t{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:16.5px;
+  line-height:1.45;white-space:pre-wrap}
+.quote .meta{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ivory-60);margin-top:8px}
+.colhead{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory-60);
+  margin:0 0 14px;padding-bottom:8px;border-bottom:1px solid var(--ivory-10)}
+.none{color:var(--ivory-60);font-size:14px}
+
+.empty{padding:70px 0;text-align:center;color:var(--ivory-60)}
+.empty h3{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:26px;color:var(--ivory);margin:0 0 8px}
+footer{padding:54px 0 40px;color:var(--ivory-60);font-size:12px;border-top:1px solid var(--ivory-25);margin-top:52px}
+</style>
+</head>
+<body>
+
+<!-- gate -->
+<div class="gate" id="gate">
+  <div class="brand">Veyla</div>
+  <h1>Session feedback</h1>
+  <p>Internal. Enter the access code to load the results.</p>
+  <input type="password" id="code" placeholder="Access code" autocomplete="off" spellcheck="false">
+  <p class="gateerr" id="gateerr">That code didn't work.</p>
+  <button class="btn" id="go">Load results</button>
+</div>
+
+<div class="wrap hidden" id="app">
+<header>
+  <div class="topline">
+    <span class="brand">Veyla</span>
+    <span class="live"><span class="dot"></span><span id="status">Live</span></span>
+  </div>
+  <h1 class="title">Session feedback — <em>what the testers said</em></h1>
+  <p class="sub">Every model who has used the tool, in their own words. Refreshes every 30 seconds. Names and emails are not on this page and cannot be loaded into it.</p>
+  <div class="smalln hidden" id="smalln"></div>
+  <div class="stats" id="stats"></div>
+  <div class="segs" id="segs"></div>
+  <div class="actions">
+    <button class="btn" id="refresh">Refresh now</button>
+    <button class="btn" id="csv">Download CSV</button>
+  </div>
+</header>
+
+<div id="empty" class="empty hidden">
+  <h3>No feedback in yet.</h3>
+  <p>This page fills in the moment the first form comes back.</p>
+</div>
+
+<div id="body" class="hidden">
+
+  <section>
+    <div class="sechead"><h2>One change</h2><span class="why">Answers to "you're the designer now." Read these first.</span></div>
+    <div class="quotes cols" id="q_change"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Friction</h2><span class="why">What physically got in the way, and where sessions broke down.</span></div>
+    <div class="two">
+      <div class="card" id="c_friction"></div>
+      <div>
+        <p class="colhead">What went wrong</p>
+        <div class="quotes" id="q_wrong"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Comfort</h2><span class="why">Confidence, physical comfort, and how the session felt.</span></div>
+    <div class="grid" id="g_comfort"></div>
+    <div style="margin-top:30px">
+      <p class="colhead">Moments they thought it wasn't going to work</p>
+      <div class="quotes cols" id="q_nervous"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>What worked</h2><span class="why">Keep these. Don't design them out.</span></div>
+    <div class="quotes cols" id="q_right"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Results</h2><span class="why">How the colour turned out and how it's wearing.</span></div>
+    <div class="grid" id="g_results"></div>
+    <div style="margin-top:30px">
+      <p class="colhead">What they'd change about the result</p>
+      <div class="quotes cols" id="q_result_change"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>At home</h2><span class="why">Whether they'd actually do this alone, and what they'd pay.</span></div>
+    <div class="grid" id="g_home"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Uses we didn't ask for</h2><span class="why">Where they'd take it next, and what they'd add.</span></div>
+    <div class="two">
+      <div><p class="colhead">Other uses</p><div class="quotes" id="q_uses"></div></div>
+      <div><p class="colhead">Would add</p><div class="quotes" id="q_add"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Who tested</h2><span class="why">Hair types behind the feedback above.</span></div>
+    <div class="grid" id="g_who"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Anything else</h2></div>
+    <div class="quotes cols" id="q_else"></div>
+  </section>
+
+</div>
+
+<footer>
+  <div id="updated">—</div>
+  <div style="margin-top:6px">Confidential. Veyla and RT Prime only. Do not forward this URL.</div>
+</footer>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const SUPABASE_URL  = "https://kpeiazlbpnqolinutarf.supabase.co";
+const SUPABASE_ANON = "sb_publishable_Q1dxDZjFKlVRpz_hpw0c2w_Ksg3hv4W";
+const RPC = "feedback_results";     // the passcode-checking function
+const POLL_MS = 30000;
+
+const CHART = {
+  friction:{id:"friction", label:"What got in the way", multi:true, tone:"amber",
+    opts:["It felt heavy","Awkward to hold","Couldn't reach the back of my head","My arms got tired",
+          "Couldn't see what I was doing","Hair got tangled","Messier than I expected",
+          "Hard to be precise","Nervous I'd ruin it","Nothing bothered me"]},
+  comfort:[
+    {id:"comfort_using", label:"Comfortable using it", scale:true, low:"Completely lost", high:"Totally in control"},
+    {id:"comfort_physical", label:"Physically comfortable", scale:true, low:"Uncomfortable", high:"Didn't notice"},
+    {id:"comfort_session", label:"Comfortable overall", scale:true, low:"On edge", high:"Relaxed"},
+    {id:"needed_help", label:"Needed help", opts:["No, I was fine","A little guidance","Yes, quite a bit","I couldn't have done it alone"], flag:"I couldn't have done it alone"},
+    {id:"session_length_feel", label:"How long it felt", opts:["Faster than I expected","About what I expected","Longer than I expected","Way longer than I expected"], flag:"Way longer than I expected"},
+    {id:"who_applied", label:"Who applied it", opts:["I did it myself","Mostly me, some help","Mostly Maxine","Maxine did it, I watched"]}
+  ],
+  results:[
+    {id:"results_rating", label:"Happy with the results", scale:true, low:"Not at all", high:"Thrilled"},
+    {id:"vs_salon", label:"Against salon highlights", opts:["Better than my salon","Just as good","Close, but not quite","Noticeably not as good","I don't get salon highlights"], flag:"Noticeably not as good"},
+    {id:"noticed", label:"Did anyone notice", opts:["Yes, unprompted compliments","Yes, someone asked about it","Nobody said anything","I told them first","Too soon to say"]},
+    {id:"holding_up", label:"How it's holding up", opts:["Still looks great","Fine, softening a bit","Went brassy","Faded fast","Too soon to say"], flag:"Went brassy"}
+  ],
+  home:[
+    {id:"use_at_home", label:"Would use it at home", opts:["Yes, definitely","Probably","Not sure","Probably not","No"]},
+    {id:"home_blocker", label:"What's in the way", opts:["Nothing, I'd just do it","Worried I'd mess it up","Takes too long","The cost","The mess","I'd rather someone else did it","Not confident without supervision"], tone:"amber"},
+    {id:"price", label:"What they'd pay for the device", opts:["Under $50","$50–80","$80–120","$120–180","$180+","Wouldn't buy it"]},
+    {id:"consumable_intent", label:"Would buy your lightener", opts:["Yes, I'd want the one made for it","Yes, if the price is fair","Only if nothing else works properly","No, I'd use my own","I'd want my stylist to supply it","Not sure"], flag:"No, I'd use my own"},
+    {id:"consumable_price", label:"What they'd pay per application", opts:["Under $15","$15–25","$25–40","$40–60","Over $60","Wouldn't buy it"]},
+    {id:"frequency", label:"How often they'd use it", opts:["Every 4–6 weeks","Every 2–3 months","A few times a year","Once, to try it","Never"]},
+    {id:"where_home", label:"Where they'd do it", opts:["Bathroom","Bedroom mirror","Kitchen","Outside or garage","Wouldn't do it at home"]},
+    {id:"alone_or_help", label:"Alone or with someone", opts:["On my own","With a friend, for fun","I'd want someone helping me","I'd do it on someone else"]}
+  ],
+  who:[
+    {id:"diy_history", label:"Coloured their own hair before", multi:true,
+      opts:["Box dye","An at-home highlight kit","Bleach from a beauty supply","Toner or gloss","Root touch-up spray","Cut my own bangs (respect)","Never, this was my first time"]},
+    {id:"diy_outcome", label:"How that went for them", opts:["Great, honestly","Fine","Regretted it","Had to pay someone to fix it","Never tried"], flag:"Had to pay someone to fix it"},
+    {id:"hair_length", label:"Length", opts:["Pixie or shorter","Chin to bob","Shoulder","Mid-back","Long"]},
+    {id:"hair_texture", label:"Texture", opts:["Straight","Wavy","Curly","Coily"]},
+    {id:"hair_density", label:"Density", opts:["Fine / not much of it","Medium","Thick","Very thick"]},
+    {id:"session_when", label:"When they tested", opts:["This week","1–2 weeks ago","3–4 weeks ago","Over a month ago"]}
+  ]
+};
+const ALL_IDS = ["session_when","who_applied","hair_length","hair_texture","hair_density","diy_history","diy_outcome",
+  "went_right","went_wrong",
+  "needed_help","session_length_feel","comfort_using","comfort_physical","comfort_session","friction","nervous_moment",
+  "results_rating","vs_salon","noticed","results_change","holding_up","use_at_home","home_blocker","where_home",
+  "alone_or_help","frequency","price","consumable_intent","consumable_price","other_uses","one_change","would_add","recommend","anything_else"];
+
+let sb=null, allRows=[], rows=[], code="", seg="all";
+
+const SEGS=[
+  {k:"all",  label:"Everyone", fn:()=>true},
+  {k:"self", label:"Applied it themselves", fn:r=>["I did it myself","Mostly me, some help"].includes(r.who_applied)},
+  {k:"exp",  label:"Has coloured at home before", fn:r=>Array.isArray(r.diy_history)&&r.diy_history.some(x=>x!=="Never, this was my first time")},
+  {k:"new",  label:"First-timers", fn:r=>!Array.isArray(r.diy_history)||r.diy_history.length===0||r.diy_history.includes("Never, this was my first time")}
+];
+
+function paintSegs(){
+  const el=document.getElementById("segs");
+  el.innerHTML='<span class="lbl">Showing</span>'+SEGS.map(s=>{
+    const n=allRows.filter(s.fn).length;
+    return `<button class="seg" data-k="${s.k}" aria-pressed="${seg===s.k}">${s.label}<span class="c">${n}</span></button>`;
+  }).join("");
+  el.querySelectorAll(".seg").forEach(b=>b.addEventListener("click",()=>{
+    seg=b.dataset.k; applySeg();
+  }));
+}
+function applySeg(){
+  const s=SEGS.find(x=>x.k===seg)||SEGS[0];
+  rows=allRows.filter(s.fn);
+  paintSegs(); render();
+}
+
+/* ---------- gate ---------- */
+document.getElementById("go").addEventListener("click",unlock);
+document.getElementById("code").addEventListener("keydown",e=>{if(e.key==="Enter")unlock();});
+try{ const c=sessionStorage.getItem("veyla_rc"); if(c){ code=c; unlock(true); } }catch(e){}
+
+async function unlock(fromStore){
+  if(!fromStore) code=document.getElementById("code").value.trim();
+  if(!code) return;
+  sb = sb || supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+  const ok = await load(true);
+  if(ok){
+    try{ sessionStorage.setItem("veyla_rc", code); }catch(e){}
+    document.getElementById("gate").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    setInterval(()=>load(false), POLL_MS);
+  } else {
+    try{ sessionStorage.removeItem("veyla_rc"); }catch(e){}
+    document.getElementById("gateerr").classList.add("show");
+    document.getElementById("gate").classList.remove("hidden");
+    document.getElementById("app").classList.add("hidden");
+  }
+}
+
+async function load(first){
+  const st=document.getElementById("status"); if(st) st.textContent="Refreshing";
+  const {data,error}=await sb.rpc(RPC,{code});
+  if(error){ console.error(error); if(st) st.textContent="Error"; return false; }
+  allRows=(data||[]).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  applySeg();
+  if(st) st.textContent="Live";
+  document.getElementById("updated").textContent =
+    "Last updated "+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+
+    " · "+allRows.length+" responses";
+  return true;
+}
+
+/* ---------- render ---------- */
+function render(){
+  document.getElementById("empty").classList.toggle("hidden", rows.length>0);
+  document.getElementById("body").classList.toggle("hidden", rows.length===0);
+  stats();
+  if(!rows.length) return;
+
+  quotes("q_change","one_change","key");
+  document.getElementById("c_friction").innerHTML = card(CHART.friction);
+  quotes("q_wrong","went_wrong","bad");
+  group("g_comfort", CHART.comfort);
+  quotes("q_nervous","nervous_moment","bad");
+  quotes("q_right","went_right");
+  group("g_results", CHART.results);
+  quotes("q_result_change","results_change");
+  group("g_home", CHART.home);
+  quotes("q_uses","other_uses");
+  quotes("q_add","would_add");
+  group("g_who", CHART.who);
+  quotes("q_else","anything_else");
+}
+
+/* rough midpoints for the year-one estimate */
+const MID_DEVICE={"Under $50":40,"$50–80":65,"$80–120":100,"$120–180":150,"$180+":200,"Wouldn't buy it":0};
+const MID_REFILL={"Under $15":12,"$15–25":20,"$25–40":32,"$40–60":50,"Over $60":70,"Wouldn't buy it":0};
+const PER_YEAR={"Every 4–6 weeks":10,"Every 2–3 months":5,"A few times a year":3,"Once, to try it":1,"Never":0};
+
+function yearOne(){
+  const vals=rows.map(r=>{
+    const d=MID_DEVICE[r.price], f=MID_REFILL[r.consumable_price], n=PER_YEAR[r.frequency];
+    if(d===undefined||f===undefined||n===undefined) return null;
+    return d + f*n;
+  }).filter(v=>v!==null);
+  if(!vals.length) return null;
+  return Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+}
+
+function stats(){
+  const warn=document.getElementById("smalln");
+  warn.classList.toggle("hidden", rows.length===0 || rows.length>=25);
+  if(rows.length && rows.length<25){
+    warn.innerHTML=`<b>${rows.length} responses.</b> The percentages below move by ${Math.round(100/rows.length)} points every time one more form comes in. Read the written answers. Treat the bars as a rough shape, not a finding.`;
+  }
+  if(!rows.length){ document.getElementById("stats").innerHTML=""; return; }
+  const home = pct(rows.filter(r=>["Yes, definitely","Probably"].includes(r.use_at_home)).length);
+  const nps  = npsScore();
+  const refill = pct(rows.filter(r=>(r.consumable_intent||"").startsWith("Yes")).length);
+  const y1 = yearOne();
+  const s=[
+    {k:"Responses", v:rows.length, cls:"hero"},
+    {k:"Comfortable using it", v:avg("comfort_using")+"<small> / 5</small>"},
+    {k:"Happy with results", v:avg("results_rating")+"<small> / 5</small>"},
+    {k:"Would use at home", v:home+"<small>%</small>", cls:"hero"},
+    {k:"Would buy your lightener", v:refill+"<small>%</small>", cls:"hero"},
+    {k:"Est. year-one value", v:(y1===null?"—":"$"+y1), cls:"hero"},
+    {k:"Needed real help", v:pct(rows.filter(r=>["Yes, quite a bit","I couldn't have done it alone"].includes(r.needed_help)).length)+"<small>%</small>", cls:"warn"},
+    {k:"Recommend score", v:(nps===null?"—":nps)}
+  ];
+  document.getElementById("stats").innerHTML=s.map(x=>
+    `<div class="stat ${x.cls||''}"><div class="v">${x.v}</div><div class="k">${x.k}</div></div>`).join("");
+}
+function pct(n){ return rows.length?Math.round(n/rows.length*100):0; }
+function avg(id){
+  const v=rows.map(r=>r[id]).filter(x=>typeof x==="number");
+  return v.length?(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1):"—";
+}
+function npsScore(){
+  const v=rows.map(r=>r.recommend).filter(x=>typeof x==="number");
+  if(!v.length) return null;
+  const p=v.filter(x=>x>=9).length, d=v.filter(x=>x<=6).length;
+  return Math.round((p-d)/v.length*100);
+}
+
+function group(elId, fields){ document.getElementById(elId).innerHTML = fields.map(card).join(""); }
+
+function card(f){
+  if(f.scale){
+    const a=avg(f.id);
+    const pips=[1,2,3,4,5].map(n=>`<div class="pip ${Math.round(a)===n?'on':''}">${n}</div>`).join("");
+    return `<div class="card"><p class="qt">${f.label}</p>
+      <div class="avg"><span class="avgnum">${a}</span><span class="avgof">average of 5</span></div>
+      <div class="pips">${pips}</div>
+      <div class="rowtop" style="margin-top:10px"><span class="n">${f.low}</span><span class="n">${f.high}</span></div></div>`;
+  }
+  const counts={}; f.opts.forEach(o=>counts[o]=0);
+  rows.forEach(r=>{
+    const v=r[f.id]; if(v==null) return;
+    if(f.multi&&Array.isArray(v)) v.forEach(x=>{ if(x in counts) counts[x]++; });
+    else if(v in counts) counts[v]++;
+  });
+  const entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const max=Math.max(1,...entries.map(e=>e[1]));
+  const denom=rows.length||1;
+  const bars=entries.map(([label,n],i)=>{
+    let cls = i===0&&n>0 ? "top" : "";
+    if(f.tone==="amber"&&n>0) cls="amber";
+    if(f.flag===label&&n>0) cls="rust";
+    return `<div class="row">
+      <div class="rowtop"><span>${label}</span><span class="n">${n} · ${Math.round(n/denom*100)}%</span></div>
+      <div class="track"><div class="fill ${cls}" style="width:${(n/max*100).toFixed(1)}%"></div></div></div>`;
+  }).join("");
+  const note=f.multi?`<div class="rowtop"><span class="n">Multiple answers allowed</span></div>`:"";
+  return `<div class="card"><p class="qt">${f.label}</p>${bars}${note}</div>`;
+}
+
+function quotes(elId, field, tone){
+  const list=rows.filter(r=>r[field]&&String(r[field]).trim().length>1);
+  const el=document.getElementById(elId);
+  if(!list.length){ el.innerHTML=`<p class="none">Nothing here yet.</p>`; return; }
+  el.innerHTML=list.map(r=>`<div class="quote ${tone||''}">
+    <div class="t">${esc(r[field])}</div>
+    <span class="meta">${r.hair_length||"—"} · ${r.hair_texture||"—"} · ${r.who_applied||"—"} · ${r.session_when||"—"}</span>
+  </div>`).join("");
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+/* ---------- csv ---------- */
+document.getElementById("csv").addEventListener("click",()=>{
+  const cols=["created_at",...ALL_IDS];
+  const q=v=>{ if(v==null) return "";
+    const s=Array.isArray(v)?v.join("; "):String(v);
+    return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; };
+  const csv=[cols.join(",")].concat(allRows.map(r=>cols.map(c=>q(r[c])).join(","))).join("\n");
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+  a.download=`veyla-session-feedback-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+});
+document.getElementById("refresh").addEventListener("click",()=>load(false));
+</script>
+</body>
+</html>
